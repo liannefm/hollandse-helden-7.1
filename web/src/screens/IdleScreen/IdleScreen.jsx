@@ -5,7 +5,7 @@ import background from "../../assets/images/idleScreen/background.png";
 
 export default function IdleScreen({ onStart }) {
     return (
-        <div className="idle-screen">
+        <div className="idle-screen" onClick={onStart}>
             <header>
                 <div className="logo">
                     <img src={logo} alt="Logo" width="153" height="153" />
@@ -17,7 +17,7 @@ export default function IdleScreen({ onStart }) {
                 <img className="background" src={background} alt="Background" />
             </main>
             <footer>
-                <button onClick={onStart}>CLICK THE SCREEN TO START</button>
+                <button>CLICK THE SCREEN TO START</button>
             </footer>
         </div>
     );
