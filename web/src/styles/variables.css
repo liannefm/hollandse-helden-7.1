@@ -1,0 +1,10 @@
+:root {
+    --color-primary: #8cd003;
+    --color-primary-light: #deff78;
+
+    --color-accent: #ff7520;
+    --color-accent-light: #ffb181;
+
+    --font-heading: "Renos Rough", sans-serif;
+    --font-body: "Noto Sans", sans-serif;
+}
