@@ -1,0 +1,120 @@
+.order-type-screen {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    header {
+        display: flex;
+        justify-content: center;
+
+        h1 {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-top: 20%;
+
+            max-width: 600px;
+
+            font-size: 80px;
+        }
+    }
+
+    main {
+        .background {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+
+            width: 100vw;
+            height: 100vh;
+
+            z-index: -1;
+
+        }
+
+        .buttonbox {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 200px;
+
+            #takeaway,
+            #eatin {
+                display: flex;
+                justify-content: center;
+                flex-direction: column-reverse;
+                align-items: center;
+
+                width: 335px;
+                height: 440px;
+
+                background-color: rgb(255, 255, 255);
+
+                font-size: 50px;
+
+                padding-top: 50px;
+
+                border: none;
+                border-radius: 10px;
+                box-shadow: 0 0 10px 2px rgb(218, 218, 218);
+
+                font-family: var(--font-heading);
+
+                gap: 69px;
+            }
+
+            #tasje{
+                width: 200px;
+                height: 200px;
+            }
+            #tafeltje{
+                width: 250px;
+                height: 180px;
+            }
+        }
+    }
+
+    footer {
+        .buttonboxtaal {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 460px;
+
+            #nl,
+            #de,
+            #en {
+                display: flex;
+                justify-content: center;
+
+                width: 300px;
+                height: 100px;
+
+                padding-top: 35px;
+                gap: 15px;
+
+                background: white;
+
+                border: none;
+                border-radius: 10px;
+                box-shadow: 0 0 10px 2px rgb(218, 218, 218);
+
+                font-family: var(--font-body);
+                font-size: 30px;
+            }
+
+            #vlagnl{
+                width: 50px;
+                height: 50px;
+                // border-radius: 10px;
+                margin-top: -8px;
+            }
+            #vlagde,
+            #vlagen{
+                width: 60px;
+                height: 50px;
+                // border-radius: 10px;
+                margin-top: -8px;
+            }
+        }
+    }
+}
