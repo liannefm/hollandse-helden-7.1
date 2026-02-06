@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import KioskApp from './pages/KioskApp';
+import KioskApp from './pages/KioskApp.tsx';
 
 function App() {
   return (
