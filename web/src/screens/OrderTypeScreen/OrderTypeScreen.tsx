@@ -1,5 +1,10 @@
 import './OrderTypeScreen.scss';
 import background from '../../assets/images/background.png';
+import tasje from '../../assets/images/tasje.png';
+import tafeltje from '../../assets/images/tafeltje.png';
+import vlagnl from '../../assets/images/vlagnl.png';
+import vlagen from '../../assets/images/vlagen.png';
+import vlagde from '../../assets/images/vlagde.png';
 
 export default function OrderTypeScreen() {
     return (
@@ -12,15 +17,33 @@ export default function OrderTypeScreen() {
 
 
                 <div className='buttonbox'>
-                    <button id='eatin'>Eat in</button>
-                    <button id='takeaway'>Take away</button>
+                    <button id='eatin'>
+                        <img src={tafeltje} id="tafeltje"/>
+                        Eat in
+                    </button>
+
+                    <button id='takeaway'>
+                        <img src={tasje} id="tasje"/>
+                        Take away
+                    </button>
                 </div>
             </main>
             <footer>
                 <div className='buttonboxtaal'>
-                    <button id="nl">Nederlands</button>
-                    <button id="en">English</button>
-                    <button id="de">Deutsch</button>
+                    <button id="nl">
+                        <img src={vlagnl} id="vlagnl"/>
+                        Nederlands
+                    </button>
+
+                    <button id="en">
+                        <img src={vlagen} id="vlagen"/>
+                        English
+                    </button>
+
+                    <button id="de">
+                        <img src={vlagde} id="vlagde"/>
+                        Deutsch
+                    </button>
                 </div>
             </footer>
         </div>
