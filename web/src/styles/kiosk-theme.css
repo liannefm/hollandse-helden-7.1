@@ -3,6 +3,8 @@ body {
     padding: 0;
 
     font-family: var(--font-body);
+
+    color: var(--text-color);
 }
 
 h1,
