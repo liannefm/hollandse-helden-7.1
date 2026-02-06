@@ -3,7 +3,7 @@ import './idleScreen.scss';
 import logo from "../../assets/images/logos/logo.webp";
 import background from "../../assets/images/idleScreen/background.png";
 
-export default function IdleScreen({ onStart }) {
+export default function IdleScreen({ onStart }: { onStart: () => void }) {
     return (
         <div className="idle-screen" onClick={onStart}>
             <header>
