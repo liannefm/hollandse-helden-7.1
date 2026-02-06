@@ -8,7 +8,7 @@ export default function IdleScreen({ onStart }: { onStart: () => void }) {
         <div className="idle-screen" onClick={onStart}>
             <header>
                 <div className="logo">
-                    <img src={logo} alt="Logo" width="153" height="153" />
+                    <img src={logo} alt="Logo" width="200" height="200" />
                 </div>
                 <h1>Fresh, Healthy<br />&<br />Enjoy Quickly</h1>
                 <div className="background"></div>
