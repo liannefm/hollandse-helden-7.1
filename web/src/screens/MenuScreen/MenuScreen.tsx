@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import './MenuScreen.scss';
 
 import logo from "../../assets/images/logos/logo.webp";
@@ -7,7 +8,49 @@ import shoppingCart from "../../assets/images/icons/shopping-cart.png";
 import type { Product } from "../../types/Product.ts";
 import type { Category } from "../../types/Category.ts";
 
-export default function MenuScreen({ categories, products }: { categories: Category[], products: Product[] }) {
+import type { ScrollPosition } from "../../types/ScrollStore.ts";
+
+type Props = {
+    categories: Category[],
+    products: Product[],
+    saveScroll: (page: string, key: string, value: ScrollPosition) => void,
+    getScroll: (page: string, key: string) => ScrollPosition,
+    onSelectProduct: (product: Product) => void
+}
+
+export default function MenuScreen({ categories, products, saveScroll, getScroll, onSelectProduct }: Props) {
+    const productsRef = useRef<HTMLDivElement>(null);
+    const categoriesRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const productsScroll = getScroll("menu", "products");
+        const categoriesScroll = getScroll("menu", "categories");
+
+        if (productsRef.current) {
+            productsRef.current.scrollTop = productsScroll.y;
+            productsRef.current.scrollLeft = productsScroll.x;
+        }
+
+        if (categoriesRef.current) {
+            categoriesRef.current.scrollLeft = categoriesScroll.x;
+        }
+    }, []);
+
+    const saveAllScrolls = () => {
+        if (productsRef.current) {
+            saveScroll("menu", "products", {
+                x: productsRef.current.scrollLeft,
+                y: productsRef.current.scrollTop
+            });
+        }
+        if (categoriesRef.current) {
+            saveScroll("menu", "categories", {
+                x: categoriesRef.current.scrollLeft,
+                y: categoriesRef.current.scrollTop
+            });
+        }
+    };
+
     return (
         <div className="menu-screen">
             <header>
@@ -25,7 +68,7 @@ export default function MenuScreen({ categories, products }: { categories: Categ
                     <button className="question-button">?</button>
                 </div>
 
-                <div className="categories">
+                <div className="categories" ref={categoriesRef}>
                     <div className="room"></div>
                     {categories.map((category, index) => (
                         <button key={category.category_id} className={index === 0 ? "active" : ""}>{category.name}</button>
@@ -35,14 +78,18 @@ export default function MenuScreen({ categories, products }: { categories: Categ
             </header>
             <hr />
             <main>
-                <div className="products">
+                <div className="products" ref={productsRef}>
                     {products.map((product) => (
-                        <div className="product">
+                        <div className="product" onClick={() => {
+                            saveAllScrolls();
+                            onSelectProduct(product);
+                        }}>
                             <img src={`/images/products/${product.image}`} alt={product.image_description} />
                             <div className="info">
                                 <p className='name'>{product.name}</p>
                                 <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
                             </div>
+                            {/* <p className="filter">VG</p> */}
                             <button className="add-button" />
                         </div>
                     ))}
