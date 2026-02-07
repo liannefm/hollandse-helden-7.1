@@ -4,12 +4,10 @@ import logo from "../../assets/images/logos/logo.webp";
 
 import shoppingCart from "../../assets/images/icons/shopping-cart.png";
 
-import template1 from "../../assets/images/products/template-1.png";
-import template2 from "../../assets/images/products/template-2.png";
-import template3 from "../../assets/images/products/template-3.png";
-import template4 from "../../assets/images/products/template-4.png";
+import type { Product } from "../../types/Product.ts";
+import type { Category } from "../../types/Category.ts";
 
-export default function MenuScreen() {
+export default function MenuScreen({ categories, products }: { categories: Category[], products: Product[] }) {
     return (
         <div className="menu-screen">
             <header>
@@ -28,48 +26,26 @@ export default function MenuScreen() {
                 </div>
 
                 <div className="categories">
-                    <button className="active">Breakfast</button>
-                    <button>Lunch & Dinner</button>
-                    <button>Handhelds</button>
+                    <div className="room"></div>
+                    {categories.map((category, index) => (
+                        <button key={category.category_id} className={index === 0 ? "active" : ""}>{category.name}</button>
+                    ))}
+                    <div className="room"></div>
                 </div>
             </header>
             <hr />
             <main>
                 <div className="products">
-                    <div className="product">
-                        <img src={template1} alt="Product" />
-                        <div className="info">
-                            <p className='name'>Morning Boost Açaí Bowl</p>
-                            <p className='price-kcal'>&euro;<span>7.50</span> &middot; <span>240</span>kcal</p>
+                    {products.map((product) => (
+                        <div className="product">
+                            <img src={`/images/products/${product.image}`} alt={product.image_description} />
+                            <div className="info">
+                                <p className='name'>{product.name}</p>
+                                <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
+                            </div>
+                            <button className="add-button" />
                         </div>
-                        <p className="filter">VG</p>
-                        <button className="add-button" />
-                    </div>
-                    <div className="product">
-                        <img src={template2} alt="Product" />
-                        <div className="info">
-                            <p className='name'>The Garden Breakfast Wrap</p>
-                            <p className='price-kcal'>&euro;<span>6.50</span> &middot; <span>240</span>kcal</p>
-                        </div>
-                        <p className="filter">V</p>
-                        <button className="add-button" />
-                    </div>
-                    <div className="product">
-                        <img src={template3} alt="Product" />
-                        <div className="info">
-                            <p className='name'>Peanut Butter & Cacao Toast</p>
-                            <p className='price-kcal'>&euro;<span>5.00</span> &middot; <span>240</span>kcal</p>
-                        </div>
-                        <button className="add-button" />
-                    </div>
-                    <div className="product">
-                        <img src={template4} alt="Product" />
-                        <div className="info">
-                            <p className='name'>Overnight Oats: Apple Pie Style</p>
-                            <p className='price-kcal'>&euro;<span>5.50</span> &middot; <span>240</span>kcal</p>
-                        </div>
-                        <button className="add-button" />
-                    </div>
+                    ))}
                 </div>
             </main>
 

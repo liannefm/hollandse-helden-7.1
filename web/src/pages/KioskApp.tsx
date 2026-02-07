@@ -4,12 +4,14 @@ import { socket } from "../socket";
 import IdleScreen from "../screens/IdleScreen/IdleScreen.tsx";
 import OrderTypeScreen from "../screens/OrderTypeScreen/OrderTypeScreen.tsx";
 import MenuScreen from "../screens/MenuScreen/MenuScreen.tsx";
-import ProductDetailScreen from "../screens/ProductDetailScreen/ProductDetailScreen.tsx";
-import PaymentInProgressScreen from "../screens/PaymentInProgressScreen/PaymentInProgressScreen.tsx";
-import OrderConfirmationScreen from "../screens/OrderConfirmationScreen/OrderConfirmationScreen.tsx";
+
+import type { Product } from "../types/Product.ts";
+import type { Category } from "../types/Category.ts";
 
 function KioskApp() {
-    const [screen, setScreen] = useState("order-confirmation");
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [screen, setScreen] = useState("menu");
     // const [order, setOrder] = useState<any[]>([]);
 
     useEffect(() => {
@@ -17,6 +19,14 @@ function KioskApp() {
 
         socket.on("connect", () => {
             console.log("Connected to server");
+        });
+
+        socket.on("products", (data: Product[]) => {
+            setProducts(data);
+        });
+
+        socket.on("categories", (data: Category[]) => {
+            setCategories(data);
         });
 
         return () => {
@@ -28,10 +38,7 @@ function KioskApp() {
         <>
             {screen === "idle" && <IdleScreen onStart={() => setScreen("menu")} />}
             {screen === "orderTypeScreen" && <OrderTypeScreen />}
-            {screen === "menu" && <MenuScreen />}
-            {screen === "product-detail" && <ProductDetailScreen />}
-            {screen === "payment-in-progress" && <PaymentInProgressScreen />}
-            {screen === "order-confirmation" && <OrderConfirmationScreen />}
+            {screen === "menu" && <MenuScreen categories={categories} products={products} />}
         </>
     );
 }
