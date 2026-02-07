@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { socket } from "../socket";
 
 import IdleScreen from "../screens/IdleScreen/IdleScreen.tsx";
 import OrderTypeScreen from "../screens/OrderTypeScreen/OrderTypeScreen.tsx";
@@ -10,6 +11,18 @@ import OrderConfirmationScreen from "../screens/OrderConfirmationScreen/OrderCon
 function KioskApp() {
     const [screen, setScreen] = useState("order-confirmation");
     // const [order, setOrder] = useState<any[]>([]);
+
+    useEffect(() => {
+        socket.connect();
+
+        socket.on("connect", () => {
+            console.log("Connected to server");
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
 
     return (
         <>
