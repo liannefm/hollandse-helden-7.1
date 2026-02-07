@@ -8,7 +8,7 @@ import PaymentInProgressScreen from "../screens/PaymentInProgressScreen/PaymentI
 import OrderConfirmationScreen from "../screens/OrderConfirmationScreen/OrderConfirmationScreen.tsx";
 
 function KioskApp() {
-    const [screen, setScreen] = useState("idle");
+    const [screen, setScreen] = useState("order-confirmation");
     // const [order, setOrder] = useState<any[]>([]);
 
     return (
