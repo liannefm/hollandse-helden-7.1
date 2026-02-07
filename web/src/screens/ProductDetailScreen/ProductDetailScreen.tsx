@@ -4,9 +4,9 @@ import logo from "../../assets/images/logos/logo.webp";
 
 import background from "../../assets/images/background.png";
 
-import template1 from "../../assets/images/products/template-1.png";
+import type { Product } from "../../types/Product.ts";
 
-export default function ProductDetailScreen() {
+export default function ProductDetailScreen({ product, onCancel, onAddToOrder }: { product: Product, onCancel: () => void, onAddToOrder: () => void }) {
     return (
         <div className="product-detail-screen">
             <header>
@@ -18,14 +18,14 @@ export default function ProductDetailScreen() {
                 <img className="background" src={background} alt="Background" />
 
                 <div className="top-info">
-                    <p>&euro;<span>7.50</span> &middot; <span>320</span>kcal</p>
-                    <p className="name">Morning Boost Açaí Bowl</p>
+                    <p>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
+                    <p className="name">{product.name}</p>
                     <p className="filter">VG</p>
                 </div>
 
                 <div className="bottom-info">
-                    <img src={template1} alt="Product" />
-                    <p>A chilled blend of açaí and banana topped with crunchy granola, chia seeds, and coconut.</p>
+                    <img src={`/images/products/${product.image}`} alt={product.image_description} />
+                    <p>{product.description}</p>
                 </div>
             </main>
             <footer>
@@ -35,8 +35,8 @@ export default function ProductDetailScreen() {
                     <button className="add-button" />
                 </div>
                 <div className="buttons">
-                    <button className="cancel-button">Cancel</button>
-                    <button className="add-to-order-button">Add to order</button>
+                    <button className="cancel-button" onClick={onCancel}>Cancel</button>
+                    <button className="add-to-order-button" onClick={onAddToOrder}>Add to order</button>
                 </div>
             </footer>
         </div>
