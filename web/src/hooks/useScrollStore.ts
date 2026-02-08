@@ -22,8 +22,13 @@ export function useScrollStore() {
         return store[page]?.[key] ?? { x: 0, y: 0 };
     };
 
+    const resetScroll = () => {
+        setStore({});
+    };
+
     return {
         saveScroll,
-        getScroll
+        getScroll,
+        resetScroll
     };
 }
