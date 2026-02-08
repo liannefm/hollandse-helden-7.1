@@ -1,7 +1,7 @@
 /* Heading font */
 @font-face {
     font-family: "Renos Rough";
-    src: url("../assets/fonts/renos-rough.ttf") format("truetype");
+    src: url("/fonts/renos-rough.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
