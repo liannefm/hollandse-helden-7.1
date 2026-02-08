@@ -3,9 +3,9 @@ import './OrderConfirmationScreen.scss';
 import logo from "../../assets/images/logos/logo.webp";
 import background from "../../assets/images/background.png";
 
-export default function OrderConfirmationScreen() {
+export default function OrderConfirmationScreen({ onClick }: { onClick: () => void }) {
     return (
-        <div className="order-confirmation-screen">
+        <div className="order-confirmation-screen" onClick={onClick}>
             <header>
                 <img src={logo} alt="Logo" />
             </header>

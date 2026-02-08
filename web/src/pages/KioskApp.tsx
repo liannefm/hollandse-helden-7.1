@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { socket } from "../socket";
-import { useScrollStore } from "../hooks/useScrollStore";
+
+import { useScrollStore } from "../hooks/useScrollStore.ts";
+import { useOrderStore } from "../hooks/useOrderStore.ts";
 
 import IdleScreen from "../screens/IdleScreen/IdleScreen.tsx";
 import OrderTypeScreen from "../screens/OrderTypeScreen/OrderTypeScreen.tsx";
@@ -22,6 +24,16 @@ function KioskApp() {
 
     const { saveScroll, getScroll, resetScroll } = useScrollStore();
 
+    const {
+        orderData,
+        setOrderType,
+        addToCart,
+        resetOrder,
+        increaseFromCart,
+        decreaseFromCart,
+        removeFromCart
+    } = useOrderStore(products);
+
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
@@ -38,10 +50,9 @@ function KioskApp() {
         setSelectedProduct(null);
         setActiveCategory(categories.length > 0 ? categories[0].category_id : null);
         resetScroll();
+        resetOrder();
         resetInactivity();
     };
-
-    // const [order, setOrder] = useState<any[]>([]);
 
     useEffect(() => {
         socket.connect();
@@ -74,13 +85,15 @@ function KioskApp() {
             )}
             {screen === "orderTypeScreen" && (
                 <OrderTypeScreen
-                    onOrderTypeSelected={() => {
+                    onOrderTypeSelected={(type) => {
+                        setOrderType(type);
                         setScreen("menu");
                     }}
                 />
             )}
             {screen === "menu" && (
                 <MenuScreen
+                    orderData={orderData}
                     categories={categories}
                     products={products}
                     saveScroll={saveScroll}
@@ -103,7 +116,10 @@ function KioskApp() {
                         setSelectedProduct(null);
                         setScreen("menu");
                     }}
-                    onAddToOrder={() => {
+                    onAddToOrder={(productId, quantity) => {
+                        addToCart(productId, quantity);
+                    }}
+                    onAnimationEnd={() => {
                         setSelectedProduct(null);
                         setScreen("menu");
                     }}
@@ -111,6 +127,17 @@ function KioskApp() {
             )}
             {screen === "order-summary" && (
                 <OrderSummaryScreen
+                    orderData={orderData}
+                    products={products}
+                    onRemoveFromOrder={(productId) => {
+                        removeFromCart(productId);
+                    }}
+                    onIncreaseFromCart={(productId) => {
+                        increaseFromCart(productId);
+                    }}
+                    onDecreaseFromCart={(productId) => {
+                        decreaseFromCart(productId);
+                    }}
                     onContinueOrdering={() => {
                         setScreen("menu");
                     }}
@@ -119,10 +146,10 @@ function KioskApp() {
                     }}
                 />
             )}
-            {screen === "payment-in-progress" && <PaymentInProgressScreen />}
-            {screen === "order-confirmation" && <OrderConfirmationScreen />}
+            {screen === "payment-in-progress" && <PaymentInProgressScreen onClick={() => setScreen("order-confirmation")} />}
+            {screen === "order-confirmation" && <OrderConfirmationScreen onClick={() => setScreen("idle")} />}
 
-            {isInactive && screen !== "idle" && (
+            {isInactive && screen !== "idle" && screen !== "payment-in-progress" && screen !== "order-confirmation" && (
                 <InactivityScreen
                     onContinue={resetInactivity}
                     onStop={handleReset}

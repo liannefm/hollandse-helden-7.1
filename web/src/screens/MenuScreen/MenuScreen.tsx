@@ -9,8 +9,10 @@ import type { Product } from "../../types/Product.ts";
 import type { Category } from "../../types/Category.ts";
 
 import type { ScrollPosition } from "../../types/ScrollStore.ts";
+import type { OrderData } from "../../types/OrderData.ts";
 
 type Props = {
+    orderData: OrderData,
     categories: Category[],
     products: Product[],
     saveScroll: (page: string, key: string, value: ScrollPosition) => void,
@@ -21,7 +23,7 @@ type Props = {
     onOrderSummary: () => void
 }
 
-export default function MenuScreen({ categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, onOrderSummary }: Props) {
+export default function MenuScreen({ orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, onOrderSummary }: Props) {
     const productsRef = useRef<HTMLDivElement>(null);
     const categoriesRef = useRef<HTMLDivElement>(null);
 
@@ -117,7 +119,7 @@ export default function MenuScreen({ categories, products, saveScroll, getScroll
 
             <footer>
                 <img src={shoppingCart} alt="Shopping Cart" />
-                <p><span>0</span> items &middot; &euro;<span>0.00</span></p>
+                <p><span>{orderData.totalItems}</span> items &middot; &euro;<span>{orderData.totalPrice.toFixed(2)}</span></p>
                 <button onClick={onOrderSummary}>View my order <span>&gt;</span></button>
             </footer>
         </div>
