@@ -6,7 +6,7 @@ import vlagnl from '../../assets/images/icons/vlagnl.png';
 import vlagen from '../../assets/images/icons/vlagen.png';
 import vlagde from '../../assets/images/icons/vlagde.png';
 
-export default function OrderTypeScreen() {
+export default function OrderTypeScreen({ onOrderTypeSelected }: { onOrderTypeSelected: (orderType: string) => void }) {
     return (
         <div className="order-type-screen">
             <header>
@@ -17,12 +17,12 @@ export default function OrderTypeScreen() {
 
 
                 <div className='buttonbox'>
-                    <button id='eatin'>
+                    <button id='eatin' onClick={() => onOrderTypeSelected('eatin')}>
                         <img src={tafeltje} id="tafeltje" />
                         Eat in
                     </button>
 
-                    <button id='takeaway'>
+                    <button id='takeaway' onClick={() => onOrderTypeSelected('takeaway')}>
                         <img src={tasje} id="tasje" />
                         Take away
                     </button>
