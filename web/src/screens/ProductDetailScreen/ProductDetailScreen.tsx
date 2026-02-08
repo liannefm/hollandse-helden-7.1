@@ -8,17 +8,18 @@ import background from "../../assets/images/background.png";
 import type { Product } from "../../types/Product.ts";
 import AddToCartAnimation from './AddToCartAnimation.tsx';
 
-export default function ProductDetailScreen({ product, onCancel, onAddToOrder }: { product: Product, onCancel: () => void, onAddToOrder: () => void }) {
+export default function ProductDetailScreen({ product, onCancel, onAddToOrder, onAnimationEnd }: { product: Product, onCancel: () => void, onAddToOrder: () => void, onAnimationEnd: () => void }) {
     const [quantity, setQuantity] = useState(1);
     const [showAnimation, setShowAnimation] = useState(false);
 
     const handleAddToOrder = () => {
+        onAddToOrder(product.product_id, quantity);
         setShowAnimation(true);
     };
 
     const handleAnimationComplete = () => {
         setShowAnimation(false);
-        onAddToOrder();
+        onAnimationEnd();
     };
 
     return (

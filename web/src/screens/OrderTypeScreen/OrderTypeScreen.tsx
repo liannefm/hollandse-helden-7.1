@@ -17,12 +17,12 @@ export default function OrderTypeScreen({ onOrderTypeSelected }: { onOrderTypeSe
 
 
                 <div className='buttonbox'>
-                    <button id='eatin' onClick={() => onOrderTypeSelected('eatin')}>
+                    <button id='eatin' onClick={() => onOrderTypeSelected('here')}>
                         <img src={tafeltje} id="tafeltje" />
                         Eat in
                     </button>
 
-                    <button id='takeaway' onClick={() => onOrderTypeSelected('takeaway')}>
+                    <button id='takeaway' onClick={() => onOrderTypeSelected('take_away')}>
                         <img src={tasje} id="tasje" />
                         Take away
                     </button>
