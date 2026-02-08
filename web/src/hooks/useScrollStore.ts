@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ScrollStore, ScrollPosition } from "../types/scroll";
+import type { ScrollStore, ScrollPosition } from "../types/ScrollStore.ts";
 
 export function useScrollStore() {
     const [store, setStore] = useState<ScrollStore>({});
