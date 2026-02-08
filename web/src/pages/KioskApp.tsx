@@ -6,6 +6,7 @@ import IdleScreen from "../screens/IdleScreen/IdleScreen.tsx";
 import OrderTypeScreen from "../screens/OrderTypeScreen/OrderTypeScreen.tsx";
 import MenuScreen from "../screens/MenuScreen/MenuScreen.tsx";
 import ProductDetailScreen from "../screens/ProductDetailScreen/ProductDetailScreen.tsx";
+import OrderSummaryScreen from "../screens/OrderSummaryScreen/OrderSummaryScreen.tsx";
 import PaymentInProgressScreen from "../screens/PaymentInProgressScreen/PaymentInProgressScreen.tsx";
 import OrderConfirmationScreen from "../screens/OrderConfirmationScreen/OrderConfirmationScreen.tsx";
 import InactivityScreen from "../screens/InactivityScreen/InactivityScreen.tsx";
@@ -15,9 +16,9 @@ import type { Product } from "../types/Product.ts";
 import type { Category } from "../types/Category.ts";
 
 function KioskApp() {
+    const [screen, setScreen] = useState("idle");
     const [categories, setCategories] = useState<Category[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
-    const [screen, setScreen] = useState("idle");
 
     const { saveScroll, getScroll, resetScroll } = useScrollStore();
 
@@ -105,6 +106,7 @@ function KioskApp() {
                     }}
                 />
             )}
+            {screen === "order-summary" && <OrderSummaryScreen />}
             {screen === "payment-in-progress" && <PaymentInProgressScreen />}
             {screen === "order-confirmation" && <OrderConfirmationScreen />}
 
