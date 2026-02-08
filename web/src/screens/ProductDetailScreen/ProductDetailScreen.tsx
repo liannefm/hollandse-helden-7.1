@@ -9,6 +9,7 @@ import type { Product } from "../../types/Product.ts";
 import AddToCartAnimation from './AddToCartAnimation.tsx';
 
 export default function ProductDetailScreen({ product, onCancel, onAddToOrder }: { product: Product, onCancel: () => void, onAddToOrder: () => void }) {
+    const [quantity, setQuantity] = useState(1);
     const [showAnimation, setShowAnimation] = useState(false);
 
     const handleAddToOrder = () => {
@@ -43,9 +44,9 @@ export default function ProductDetailScreen({ product, onCancel, onAddToOrder }:
             </main>
             <footer>
                 <div className="quantity">
-                    <button className="subtract-button" />
-                    <p>1</p>
-                    <button className="add-button" />
+                    <button className="subtract-button" onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} />
+                    <p>{quantity}</p>
+                    <button className="add-button" onClick={() => setQuantity(quantity + 1)} />
                 </div>
                 <div className="buttons">
                     <button className="cancel-button" onClick={onCancel}>Cancel</button>
