@@ -2,9 +2,13 @@ import './OrderSummaryScreen.scss';
 
 import background from '../../assets/images/background.png';
 import shoppingCart from "../../assets/images/icons/shopping-cart.png";
-import template1 from "../../assets/images/products/template-1.png";
 
-export default function OrderSummaryScreen() {
+type Props = {
+    onContinueOrdering: () => void,
+    onCompleteOrder: () => void
+}
+
+export default function OrderSummaryScreen({ onContinueOrdering, onCompleteOrder }: Props) {
     return (
         <div className='order-summary-screen'>
             <header>
@@ -18,7 +22,7 @@ export default function OrderSummaryScreen() {
 
                 <div className="products">
                     <div className="product">
-                        <img src={template1} />
+                        <img src="/images/products/1.png" />
                         <div className="quantity-and-remove">
                             <div className="quantity">
                                 <button className="subtract-button" />
@@ -45,8 +49,8 @@ export default function OrderSummaryScreen() {
                 </div>
 
                 <div className='box2footer'>
-                    <button className="continue">Continue ordering</button>
-                    <button className="complete">Complete order</button>
+                    <button className="continue" onClick={onContinueOrdering}>Continue ordering</button>
+                    <button className="complete" onClick={onCompleteOrder}>Complete order</button>
                 </div>
             </footer>
         </div>

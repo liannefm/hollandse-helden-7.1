@@ -17,10 +17,11 @@ type Props = {
     getScroll: (page: string, key: string) => ScrollPosition,
     onSelectProduct: (product: Product) => void,
     activeCategory: number | null,
-    setActiveCategory: (id: number) => void
+    setActiveCategory: (id: number) => void,
+    onOrderSummary: () => void
 }
 
-export default function MenuScreen({ categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory }: Props) {
+export default function MenuScreen({ categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, onOrderSummary }: Props) {
     const productsRef = useRef<HTMLDivElement>(null);
     const categoriesRef = useRef<HTMLDivElement>(null);
 
@@ -117,7 +118,7 @@ export default function MenuScreen({ categories, products, saveScroll, getScroll
             <footer>
                 <img src={shoppingCart} alt="Shopping Cart" />
                 <p><span>0</span> items &middot; &euro;<span>0.00</span></p>
-                <button>View my order <span>&gt;</span></button>
+                <button onClick={onOrderSummary}>View my order <span>&gt;</span></button>
             </footer>
         </div>
     );

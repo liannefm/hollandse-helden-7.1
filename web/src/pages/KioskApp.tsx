@@ -91,6 +91,9 @@ function KioskApp() {
                         setSelectedProduct(product);
                         setScreen("product-detail");
                     }}
+                    onOrderSummary={() => {
+                        setScreen("order-summary");
+                    }}
                 />
             )}
             {screen === "product-detail" && selectedProduct && (
@@ -106,7 +109,16 @@ function KioskApp() {
                     }}
                 />
             )}
-            {screen === "order-summary" && <OrderSummaryScreen />}
+            {screen === "order-summary" && (
+                <OrderSummaryScreen
+                    onContinueOrdering={() => {
+                        setScreen("menu");
+                    }}
+                    onCompleteOrder={() => {
+                        setScreen("payment-in-progress");
+                    }}
+                />
+            )}
             {screen === "payment-in-progress" && <PaymentInProgressScreen />}
             {screen === "order-confirmation" && <OrderConfirmationScreen />}
 
