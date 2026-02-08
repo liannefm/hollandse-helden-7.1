@@ -6,22 +6,22 @@ const io = new Server(3000, {
 
 const categories = [
     {
-        categorie_id: 1,
+        category_id: 1,
         name: "Breakfast",
         description: null
     },
     {
-        categorie_id: 2,
+        category_id: 2,
         name: "Lunch & Dinner",
         description: null
     },
     {
-        categorie_id: 3,
+        category_id: 3,
         name: "Handhelds",
         description: null
     },
     {
-        categorie_id: 4,
+        category_id: 4,
         name: "Sides & Small Plates",
         description: null
     }

@@ -142,11 +142,12 @@
             gap: 40px;
             height: 1080px;
 
-            overflow-y: scroll;
-            padding-right: 24px;
+            overflow-y: auto;
             box-sizing: border-box;
 
-            overscroll-behavior: contain;
+            &.has-scrollbar {
+                padding-right: 24px;
+            }
 
             &::-webkit-scrollbar {
                 width: 25px;

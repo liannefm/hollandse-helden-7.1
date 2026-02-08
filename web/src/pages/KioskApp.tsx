@@ -20,6 +20,14 @@ function KioskApp() {
     const { saveScroll, getScroll } = useScrollStore();
 
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [activeCategory, setActiveCategory] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (categories.length > 0 && activeCategory === null) {
+            setActiveCategory(categories[0].category_id);
+        }
+    }, [categories, activeCategory]);
+
     // const [order, setOrder] = useState<any[]>([]);
 
     useEffect(() => {
@@ -64,13 +72,15 @@ function KioskApp() {
                     products={products}
                     saveScroll={saveScroll}
                     getScroll={getScroll}
+                    activeCategory={activeCategory}
+                    setActiveCategory={setActiveCategory}
                     onSelectProduct={(product: Product) => {
                         setSelectedProduct(product);
                         setScreen("product-detail");
                     }}
                 />
             )}
-            {screen === "product-detail" && (
+            {screen === "product-detail" && selectedProduct && (
                 <ProductDetailScreen
                     product={selectedProduct}
                     onCancel={() => {

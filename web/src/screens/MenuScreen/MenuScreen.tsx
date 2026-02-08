@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import './MenuScreen.scss';
 
 import logo from "../../assets/images/logos/logo.webp";
@@ -15,10 +15,12 @@ type Props = {
     products: Product[],
     saveScroll: (page: string, key: string, value: ScrollPosition) => void,
     getScroll: (page: string, key: string) => ScrollPosition,
-    onSelectProduct: (product: Product) => void
+    onSelectProduct: (product: Product) => void,
+    activeCategory: number | null,
+    setActiveCategory: (id: number) => void
 }
 
-export default function MenuScreen({ categories, products, saveScroll, getScroll, onSelectProduct }: Props) {
+export default function MenuScreen({ categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory }: Props) {
     const productsRef = useRef<HTMLDivElement>(null);
     const categoriesRef = useRef<HTMLDivElement>(null);
 
@@ -51,6 +53,16 @@ export default function MenuScreen({ categories, products, saveScroll, getScroll
         }
     };
 
+    const [hasScrollbar, setHasScrollbar] = useState(false);
+
+    useEffect(() => {
+        if (productsRef.current) {
+            const scrollHeight = productsRef.current.scrollHeight;
+            const clientHeight = productsRef.current.clientHeight;
+            setHasScrollbar(scrollHeight > clientHeight);
+        }
+    }, [products, activeCategory]);
+
     return (
         <div className="menu-screen">
             <header>
@@ -70,16 +82,22 @@ export default function MenuScreen({ categories, products, saveScroll, getScroll
 
                 <div className="categories" ref={categoriesRef}>
                     <div className="room"></div>
-                    {categories.map((category, index) => (
-                        <button key={category.category_id} className={index === 0 ? "active" : ""}>{category.name}</button>
+                    {categories.map((category) => (
+                        <button
+                            key={category.category_id}
+                            className={category.category_id === activeCategory ? "active" : ""}
+                            onClick={() => setActiveCategory(category.category_id)}
+                        >
+                            {category.name}
+                        </button>
                     ))}
                     <div className="room"></div>
                 </div>
             </header>
             <hr />
             <main>
-                <div className="products" ref={productsRef}>
-                    {products.map((product) => (
+                <div className={`products ${hasScrollbar ? "has-scrollbar" : ""}`} ref={productsRef}>
+                    {products.filter((product) => product.category_id === activeCategory).map((product) => (
                         <div className="product" onClick={() => {
                             saveAllScrolls();
                             onSelectProduct(product);
