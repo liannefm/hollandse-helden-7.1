@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './ProductDetailScreen.scss';
 
 import logo from "../../assets/images/logos/logo.webp";
@@ -5,8 +6,20 @@ import logo from "../../assets/images/logos/logo.webp";
 import background from "../../assets/images/background.png";
 
 import type { Product } from "../../types/Product.ts";
+import AddToCartAnimation from './AddToCartAnimation.tsx';
 
 export default function ProductDetailScreen({ product, onCancel, onAddToOrder }: { product: Product, onCancel: () => void, onAddToOrder: () => void }) {
+    const [showAnimation, setShowAnimation] = useState(false);
+
+    const handleAddToOrder = () => {
+        setShowAnimation(true);
+    };
+
+    const handleAnimationComplete = () => {
+        setShowAnimation(false);
+        onAddToOrder();
+    };
+
     return (
         <div className="product-detail-screen">
             <header>
@@ -36,9 +49,14 @@ export default function ProductDetailScreen({ product, onCancel, onAddToOrder }:
                 </div>
                 <div className="buttons">
                     <button className="cancel-button" onClick={onCancel}>Cancel</button>
-                    <button className="add-to-order-button" onClick={onAddToOrder}>Add to order</button>
+                    <button className="add-to-order-button" onClick={handleAddToOrder}>Add to order</button>
                 </div>
             </footer>
+            <AddToCartAnimation
+                isVisible={showAnimation}
+                onAnimationComplete={handleAnimationComplete}
+                productImage={`/images/products/${product.image}`}
+            />
         </div>
     );
 }
