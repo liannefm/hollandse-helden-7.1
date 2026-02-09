@@ -101,12 +101,16 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
             <main>
                 <div className={`products ${hasScrollbar ? "has-scrollbar" : ""}`} ref={productsRef}>
                     {products.filter((product) => product.category_id === activeCategory).map((product) => (
-                        <div className="product" onClick={() => {
-                            saveAllScrolls();
-                            onSelectProduct(product);
-                        }}>
+                        <div
+                            key={product.product_id}
+                            className="product"
+                            onClick={() => {
+                                saveAllScrolls();
+                                onSelectProduct(product);
+                            }}
+                        >
                             <img src={`/images/products/${product.image}`} alt={product.image_description} />
-                            <div className="info">
+                            <div key={product.product_id} className="info">
                                 <p className='name'>{product.name}</p>
                                 <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
                             </div>
