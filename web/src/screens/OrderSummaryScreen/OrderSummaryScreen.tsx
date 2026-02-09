@@ -3,6 +3,9 @@ import './OrderSummaryScreen.scss';
 import background from '../../assets/images/background.png';
 import shoppingCart from "../../assets/images/icons/shopping-cart.png";
 
+import type { Product } from "../../types/Product.ts";
+import type { OrderData } from "../../types/Order.ts";
+
 type Props = {
     orderData: OrderData,
     products: Product[],
@@ -42,8 +45,8 @@ export default function OrderSummaryScreen({ orderData, products, onRemoveFromOr
                                     <button id="removeitem" onClick={() => onRemoveFromOrder(product.product_id)}>Remove item</button>
                                 </div>
                                 <div className="price-and-calories">
-                                    <p>€{product.price.toFixed(2)}</p>
-                                    <p>{product.kcal} kcal</p>
+                                    <p>€{(product.price * quantity).toFixed(2)}</p>
+                                    <p>{product.kcal * quantity} kcal</p>
                                 </div>
                             </div>
                         );
