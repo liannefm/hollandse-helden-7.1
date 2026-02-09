@@ -20,10 +20,12 @@ type Props = {
     onSelectProduct: (product: Product) => void,
     activeCategory: number | null,
     setActiveCategory: (id: number) => void,
+    activeDietFilter: string,
+    setActiveDietFilter: (filter: string) => void,
     onOrderSummary: () => void
 }
 
-export default function MenuScreen({ orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, onOrderSummary }: Props) {
+export default function MenuScreen({ orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, activeDietFilter, setActiveDietFilter, onOrderSummary }: Props) {
     const productsRef = useRef<HTMLDivElement>(null);
     const categoriesRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +41,7 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
         if (categoriesRef.current) {
             categoriesRef.current.scrollLeft = categoriesScroll.x;
         }
-    }, []);
+    }, [activeCategory, activeDietFilter]);
 
     const saveAllScrolls = () => {
         if (productsRef.current) {
@@ -64,7 +66,7 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
             const clientHeight = productsRef.current.clientHeight;
             setHasScrollbar(scrollHeight > clientHeight);
         }
-    }, [products, activeCategory]);
+    }, [products, activeCategory, activeDietFilter]);
 
     return (
         <div className="menu-screen">
@@ -74,9 +76,24 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                     <div className="filters">
                         <p>Choose a category</p>
                         <div className="filter-buttons">
-                            <button>All</button>
-                            <button>V</button>
-                            <button>VG</button>
+                            <button
+                                className={activeDietFilter === "All" ? "active" : ""}
+                                onClick={() => setActiveDietFilter("All")}
+                            >
+                                All
+                            </button>
+                            <button
+                                className={activeDietFilter === "V" ? "active" : ""}
+                                onClick={() => setActiveDietFilter("V")}
+                            >
+                                V
+                            </button>
+                            <button
+                                className={activeDietFilter === "VG" ? "active" : ""}
+                                onClick={() => setActiveDietFilter("VG")}
+                            >
+                                VG
+                            </button>
                         </div>
                     </div>
 
@@ -100,7 +117,16 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
             <hr />
             <main>
                 <div className={`products ${hasScrollbar ? "has-scrollbar" : ""}`} ref={productsRef}>
-                    {products.filter((product) => product.category_id === activeCategory).map((product) => (
+                    {products.filter((product) => {
+                        const categoryMatch = product.category_id === activeCategory;
+                        if (!categoryMatch) return false;
+
+                        if (activeDietFilter === "All") return true;
+                        if (activeDietFilter === "V") return product.diet_type === "V";
+                        if (activeDietFilter === "VG") return product.diet_type === "VG";
+
+                        return true;
+                    }).map((product) => (
                         <div
                             key={product.product_id}
                             className="product"

@@ -36,6 +36,7 @@ function KioskApp() {
 
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [activeCategory, setActiveCategory] = useState<number | null>(null);
+    const [activeDietFilter, setActiveDietFilter] = useState<string>("All");
 
     const { isInactive, resetInactivity } = useInactivity(45000);
 
@@ -49,6 +50,7 @@ function KioskApp() {
         setScreen("idle");
         setSelectedProduct(null);
         setActiveCategory(categories.length > 0 ? categories[0].category_id : null);
+        setActiveDietFilter("All");
         resetScroll();
         resetOrder();
         resetInactivity();
@@ -100,6 +102,8 @@ function KioskApp() {
                     getScroll={getScroll}
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
+                    activeDietFilter={activeDietFilter}
+                    setActiveDietFilter={setActiveDietFilter}
                     onSelectProduct={(product: Product) => {
                         setSelectedProduct(product);
                         setScreen("product-detail");
