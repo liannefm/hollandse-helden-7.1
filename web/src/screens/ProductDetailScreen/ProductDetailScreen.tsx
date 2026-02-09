@@ -8,7 +8,7 @@ import background from "../../assets/images/background.png";
 import type { Product } from "../../types/Product.ts";
 import AddToCartAnimation from './AddToCartAnimation.tsx';
 
-export default function ProductDetailScreen({ product, onCancel, onAddToOrder, onAnimationEnd }: { product: Product, onCancel: () => void, onAddToOrder: () => void, onAnimationEnd: () => void }) {
+export default function ProductDetailScreen({ product, onCancel, onAddToOrder, onAnimationEnd }: { product: Product, onCancel: () => void, onAddToOrder: (productId: number, quantity: number) => void, onAnimationEnd: () => void }) {
     const [quantity, setQuantity] = useState(1);
     const [showAnimation, setShowAnimation] = useState(false);
 
@@ -35,11 +35,11 @@ export default function ProductDetailScreen({ product, onCancel, onAddToOrder, o
                 <div className="top-info">
                     <p>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
                     <p className="name">{product.name}</p>
-                    <p className="filter">VG</p>
+                    {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
                 </div>
 
                 <div className="bottom-info">
-                    <img src={`/images/products/${product.image}`} alt={product.image_description} />
+                    <img src={`/images/products/${product.image}`} alt={product.name} />
                     <p>{product.description}</p>
                 </div>
             </main>

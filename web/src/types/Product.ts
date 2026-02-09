@@ -1,10 +1,10 @@
 export interface Product {
     product_id: number;
     category_id: number;
-    image: number;
-    image_description: string;
+    image: string;
     name: string;
     description: string;
     price: number;
     kcal: number;
+    diet_type: string;
 }

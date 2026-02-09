@@ -109,12 +109,12 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                                 onSelectProduct(product);
                             }}
                         >
-                            <img src={`/images/products/${product.image}`} alt={product.image_description} />
+                            <img src={`/images/products/${product.image}`} alt={product.name} />
                             <div key={product.product_id} className="info">
                                 <p className='name'>{product.name}</p>
                                 <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
                             </div>
-                            {/* <p className="filter">VG</p> */}
+                            {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
                             <button className="add-button" />
                         </div>
                     ))}
