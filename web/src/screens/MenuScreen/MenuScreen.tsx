@@ -9,7 +9,7 @@ import type { Product } from "../../types/Product.ts";
 import type { Category } from "../../types/Category.ts";
 
 import type { ScrollPosition } from "../../types/ScrollStore.ts";
-import type { OrderData } from "../../types/OrderData.ts";
+import type { OrderData } from "../../types/Order.ts";
 
 type Props = {
     orderData: OrderData,
