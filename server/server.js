@@ -27,49 +27,6 @@ const categories = [
     }
 ]
 
-const images = [
-    {
-        image_id: 1,
-        filename: "1.png",
-        description: "Morning Boost Açaí Bowl"
-    },
-    {
-        image_id: 2,
-        filename: "2.png",
-        description: "The Garden Breakfast Wrap"
-    },
-    {
-        image_id: 3,
-        filename: "3.png",
-        description: "Peanut Butter & Cacao Toast"
-    },
-    {
-        image_id: 4,
-        filename: "4.png",
-        description: "Overnight Oats: Apple Pie Style"
-    },
-    {
-        image_id: 5,
-        filename: "5.png",
-        description: "Tofu Power Tahini Bowl"
-    },
-    {
-        image_id: 6,
-        filename: "6.png",
-        description: "The Supergreen Harvest"
-    },
-    {
-        image_id: 7,
-        filename: "7.png",
-        description: "Mediterranean Falafel Bowl"
-    },
-    {
-        image_id: 8,
-        filename: "8.png",
-        description: "Warm Teriyaki Tempeh Bowl"
-    }
-]
-
 const products = [
     {
         product_id: 1,
