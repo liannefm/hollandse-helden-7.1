@@ -33,7 +33,7 @@ export default function OrderSummaryScreen({ orderData, products, onRemoveFromOr
                         const product = products.find(p => p.product_id === parseInt(productId));
                         if (!product) return null;
                         return (
-                            <div className="product">
+                            <div key={product.product_id} className="product">
                                 <img src={`/images/products/${product.image}`} />
                                 <div className="quantity-and-remove">
                                     <div className="quantity">
@@ -64,7 +64,7 @@ export default function OrderSummaryScreen({ orderData, products, onRemoveFromOr
 
                 <div className='box2footer'>
                     <button className="continue" onClick={onContinueOrdering}>Continue ordering</button>
-                    <button className="complete" onClick={onCompleteOrder}>Complete order</button>
+                    <button className="complete" onClick={onCompleteOrder} disabled={orderData.totalItems === 0}>Complete order</button>
                 </div>
             </footer>
         </div>

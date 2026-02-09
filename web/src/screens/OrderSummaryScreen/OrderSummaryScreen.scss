@@ -238,6 +238,11 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 
                 font-size: 55px;
+
+                &:disabled {
+                    background-color: #8cd00373;
+                    cursor: not-allowed;
+                }
             }
         }
 
