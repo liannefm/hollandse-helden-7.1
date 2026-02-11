@@ -154,7 +154,7 @@ function KioskApp() {
                 />
             )}
             {screen === "payment-in-progress" && <PaymentInProgressScreen onClick={() => setScreen("order-confirmation")} />}
-            {screen === "order-confirmation" && <OrderConfirmationScreen onClick={() => setScreen("idle")} />}
+            {screen === "order-confirmation" && <OrderConfirmationScreen onClick={() => { setScreen("idle"); resetOrder(); }} />}
 
             {isInactive && screen !== "idle" && screen !== "payment-in-progress" && screen !== "order-confirmation" && (
                 <InactivityScreen
