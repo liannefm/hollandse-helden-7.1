@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+import "./AddToCartAnimation.scss";
 
 
 interface Props {

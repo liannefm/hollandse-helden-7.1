@@ -11,6 +11,8 @@ import type { Category } from "../../types/Category.ts";
 import type { ScrollPosition } from "../../types/ScrollStore.ts";
 import type { OrderData } from "../../types/Order.ts";
 
+import AddToCartAnimation from "../../components/animations/AddToCartAnimation.tsx";
+
 type Props = {
     orderData: OrderData,
     categories: Category[],
@@ -22,10 +24,11 @@ type Props = {
     setActiveCategory: (id: number) => void,
     activeDietFilter: string,
     setActiveDietFilter: (filter: string) => void,
-    onOrderSummary: () => void
+    onOrderSummary: () => void,
+    onAddToOrder: (productId: number, quantity: number) => void
 }
 
-export default function MenuScreen({ orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, activeDietFilter, setActiveDietFilter, onOrderSummary }: Props) {
+export default function MenuScreen({ orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, activeDietFilter, setActiveDietFilter, onOrderSummary, onAddToOrder }: Props) {
     const productsRef = useRef<HTMLDivElement>(null);
     const categoriesRef = useRef<HTMLDivElement>(null);
 
@@ -67,6 +70,19 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
             setHasScrollbar(scrollHeight > clientHeight);
         }
     }, [products, activeCategory, activeDietFilter]);
+
+    const [showAnimation, setShowAnimation] = useState(false);
+    const [productImage, setProductImage] = useState("");
+
+    const handleAddToOrder = (product: Product, quantity: number) => {
+        setProductImage(`/images/products/${product.image}`);
+        onAddToOrder(product.product_id, quantity);
+        setShowAnimation(true);
+    };
+
+    const handleAnimationComplete = () => {
+        setShowAnimation(false);
+    };
 
     return (
         <div className="menu-screen">
@@ -141,7 +157,10 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                                 <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
                             </div>
                             {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
-                            <button className="add-button" />
+                            <button onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddToOrder(product, 1);
+                            }} className="add-button" />
                         </div>
                     ))}
                 </div>
@@ -152,6 +171,12 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                 <p><span>{orderData.totalItems}</span> items &middot; &euro;<span>{orderData.totalPrice.toFixed(2)}</span></p>
                 <button onClick={onOrderSummary}>View my order <span>&gt;</span></button>
             </footer>
+
+            <AddToCartAnimation
+                isVisible={showAnimation}
+                onAnimationComplete={handleAnimationComplete}
+                productImage={productImage}
+            />
         </div>
     );
 }
