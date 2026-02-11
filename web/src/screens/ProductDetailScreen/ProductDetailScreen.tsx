@@ -6,7 +6,7 @@ import logo from "../../assets/images/logos/logo.webp";
 import background from "../../assets/images/background.png";
 
 import type { Product } from "../../types/Product.ts";
-import AddToCartAnimation from './AddToCartAnimation.tsx';
+import AddToCartAnimation from '../../components/animations/AddToCartAnimation.tsx';
 
 export default function ProductDetailScreen({ product, onCancel, onAddToOrder, onAnimationEnd }: { product: Product, onCancel: () => void, onAddToOrder: (productId: number, quantity: number) => void, onAnimationEnd: () => void }) {
     const [quantity, setQuantity] = useState(1);

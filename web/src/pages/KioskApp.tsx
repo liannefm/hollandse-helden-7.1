@@ -111,6 +111,9 @@ function KioskApp() {
                     onOrderSummary={() => {
                         setScreen("order-summary");
                     }}
+                    onAddToOrder={(productId, quantity) => {
+                        addToCart(productId, quantity);
+                    }}
                 />
             )}
             {screen === "product-detail" && selectedProduct && (
