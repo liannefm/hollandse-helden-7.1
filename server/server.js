@@ -41,8 +41,20 @@ async function getProducts() {
 getCategories();
 getProducts();
 
+
+const connectedClients = {};
+
 io.on("connection", (socket) => {
-    console.log("Client connected");
+    const screenType = socket.handshake.auth.screenType;
+
+    if (screenType) {
+        if (!connectedClients[screenType]) {
+            connectedClients[screenType] = [];
+        }
+        connectedClients[screenType].push(socket);
+    }
+
+    console.log(`Client connected: ${socket.id} (screenType: ${screenType})`);
 
     const sendProducts = products.map((product) => {
         return {
@@ -59,4 +71,11 @@ io.on("connection", (socket) => {
 
     socket.emit("products", sendProducts);
     socket.emit("categories", categories);
+
+    socket.on("disconnect", () => {
+        if (screenType && connectedClients[screenType]) {
+            connectedClients[screenType] = connectedClients[screenType].filter((s) => s.id !== socket.id);
+        }
+        console.log(`Client disconnected: ${socket.id} (screenType: ${screenType})`);
+    });
 });

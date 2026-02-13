@@ -57,6 +57,7 @@ function KioskApp() {
     };
 
     useEffect(() => {
+        socket.auth = { screenType: "board" };
         socket.connect();
 
         socket.on("connect", () => {

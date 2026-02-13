@@ -4,6 +4,8 @@ import './OrderStatusScreen.scss';
 import logo from '../../assets/images/logos/logo.webp';
 import background from '../../assets/images/background.png';
 
+import { socket } from "../../socket";
+
 function useAutoScroll() {
     const ref = useRef<HTMLDivElement>(null);
 
@@ -63,7 +65,18 @@ function useAutoScroll() {
     return ref;
 }
 
+
+
 export default function OrderStatusScreen() {
+    useEffect(() => {
+        socket.auth = { screenType: "statusOrder" };
+        socket.connect();
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
     const preparingOrders = ['#58', '#59', '#60', '#61', '#62', '#63'];
     const readyOrders = ['#55', '#56', '#57'];
 
