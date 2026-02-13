@@ -61,12 +61,14 @@ export function useOrderStore(products: Product[]) {
 
                 // Calculate price of removed items
                 const removedPrice = currentQty * getProductPrice(productId);
+                const removedKcal = currentQty * getProductKcal(productId);
 
                 return {
                     ...prev,
                     cart: newCart,
                     totalItems: prev.totalItems - currentQty,
-                    totalPrice: prev.totalPrice - removedPrice
+                    totalPrice: prev.totalPrice - removedPrice,
+                    totalKcal: prev.totalKcal - removedKcal,
                 };
             }
 
