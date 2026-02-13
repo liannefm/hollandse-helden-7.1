@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Feb 13, 2026 at 02:09 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: mysql_db
+-- Generation Time: Feb 13, 2026 at 04:15 PM
+-- Server version: 9.5.0
+-- PHP Version: 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `category_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `category_id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -42,7 +42,7 @@ INSERT INTO `categories` (`category_id`, `name`, `description`) VALUES
 (2, 'Lunch & Dinner', ''),
 (3, 'Handhelds (Wraps & Sandwiches)', ''),
 (4, 'Sides & Small Plates', ''),
-(5, 'Signature Dips (€1.00 each)', ''),
+(5, 'Signature Dips', ''),
 (6, 'Drinks', '');
 
 -- --------------------------------------------------------
@@ -52,11 +52,11 @@ INSERT INTO `categories` (`category_id`, `name`, `description`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `order_status_id` int(11) NOT NULL,
-  `pickup_number` tinyint(2) NOT NULL,
+  `order_id` int NOT NULL,
+  `order_status_id` int NOT NULL,
+  `pickup_number` tinyint NOT NULL,
   `price_total` float NOT NULL,
-  `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -66,9 +66,8 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `order_product` (
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `price` float NOT NULL
+  `order_id` int NOT NULL,
+  `product_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -78,8 +77,8 @@ CREATE TABLE `order_product` (
 --
 
 CREATE TABLE `order_status` (
-  `order_status_id` int(11) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `order_status_id` int NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -100,14 +99,14 @@ INSERT INTO `order_status` (`order_status_id`, `description`) VALUES
 --
 
 CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `price` int(11) NOT NULL,
-  `kcal` int(11) NOT NULL,
-  `diet_type` enum('V','VG') NOT NULL,
+  `product_id` int NOT NULL,
+  `category_id` int NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `price` float NOT NULL,
+  `kcal` int NOT NULL,
+  `diet_type` enum('V','VG') COLLATE utf8mb4_general_ci NOT NULL,
   `available` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -116,19 +115,19 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `category_id`, `image`, `name`, `description`, `price`, `kcal`, `diet_type`, `available`) VALUES
-(9, 1, '9.png', 'Morning Boost Açaí Bowl', 'A chilled blend of açaí and banana topped with crunchy granola, chia seeds, and coconut.', 8, 320, 'VG', 1),
-(10, 1, '10.png', 'The Garden Breakfast Wrap', 'Whole-grain wrap with fluffy scrambled eggs, baby spinach, and a light yogurt-herb sauce.', 7, 280, 'V', 1),
+(9, 1, '9.png', 'Morning Boost Açaí Bowl', 'A chilled blend of açaí and banana topped with crunchy granola, chia seeds, and coconut.', 7.5, 320, 'VG', 1),
+(10, 1, '10.png', 'The Garden Breakfast Wrap', 'Whole-grain wrap with fluffy scrambled eggs, baby spinach, and a light yogurt-herb sauce.', 6.5, 280, 'V', 1),
 (11, 1, '11.png', 'Peanut Butter & Cacao Toast', 'Sourdough toast with 100% natural peanut butter, banana, and a sprinkle of cacao nibs.', 5, 240, 'VG', 1),
-(12, 1, '12.png', 'Overnight Oats: Apple Pie Style', 'Oats soaked in almond milk with grated apple, cinnamon, and crushed walnuts.', 6, 290, 'VG', 1),
-(13, 2, '13.png', 'Tofu Power Tahini Bowl', 'Tri-color quinoa, maple-glazed tofu, roasted sweet potatoes, and kale with tahini dressing.', 11, 480, 'VG', 1),
-(14, 2, '14.png', 'The Supergreen Harvest', 'Massaged kale, edamame, avocado, cucumber, and toasted pumpkin seeds with lemon-olive oil.', 10, 310, 'VG', 1),
+(12, 1, '12.png', 'Overnight Oats: Apple Pie Style', 'Oats soaked in almond milk with grated apple, cinnamon, and crushed walnuts.', 5.5, 290, 'VG', 1),
+(13, 2, '13.png', 'Tofu Power Tahini Bowl', 'Tri-color quinoa, maple-glazed tofu, roasted sweet potatoes, and kale with tahini dressing.', 10.5, 480, 'VG', 1),
+(14, 2, '14.png', 'The Supergreen Harvest', 'Massaged kale, edamame, avocado, cucumber, and toasted pumpkin seeds with lemon-olive oil.', 9.5, 310, 'VG', 1),
 (15, 2, '15.png', 'Mediterranean Falafel Bowl', 'Baked falafel, hummus, pickled red onions, cherry tomatoes, and cucumber on a bed of greens.', 10, 440, 'VG', 1),
 (16, 2, '16.png', 'Warm Teriyaki Tempeh Bowl', 'Steamed brown rice, seared tempeh, broccoli, and shredded carrots with a ginger-soy glaze.', 11, 500, 'VG', 1),
-(17, 3, '17.png', 'Zesty Chickpea Hummus Wrap', 'Spiced chickpeas, shredded carrots, crisp lettuce, and signature hummus in a whole-wheat wrap.', 9, 410, 'VG', 1),
+(17, 3, '17.png', 'Zesty Chickpea Hummus Wrap', 'Spiced chickpeas, shredded carrots, crisp lettuce, and signature hummus in a whole-wheat wrap.', 8.5, 410, 'VG', 1),
 (18, 3, '18.png', 'Avocado & Halloumi Toastie', 'Grilled halloumi cheese, smashed avocado, and chili flakes on thick-cut multi-grain bread.', 9, 460, 'V', 1),
-(19, 3, '19.png', 'Smoky BBQ Jackfruit Slider', 'Pulled jackfruit in BBQ sauce with a crunchy purple slaw on a vegan brioche bun.', 8, 350, 'VG', 1),
-(20, 4, '20.png', 'Oven-Baked Sweet Potato Wedges', 'Seasoned with smoked paprika. (Best with Avocado Lime Dip).', 5, 260, 'VG', 1),
-(21, 4, '21.png', 'Zucchini Fries', 'Crispy breaded zucchini sticks. (Best with Greek Yogurt Ranch).', 5, 190, 'VG', 1),
+(19, 3, '19.png', 'Smoky BBQ Jackfruit Slider', 'Pulled jackfruit in BBQ sauce with a crunchy purple slaw on a vegan brioche bun.', 7.5, 350, 'VG', 1),
+(20, 4, '20.png', 'Oven-Baked Sweet Potato Wedges', 'Seasoned with smoked paprika. (Best with Avocado Lime Dip).', 4.5, 260, 'VG', 1),
+(21, 4, '21.png', 'Zucchini Fries', 'Crispy breaded zucchini sticks. (Best with Greek Yogurt Ranch).', 4.5, 190, 'VG', 1),
 (22, 4, '22.png', 'Baked Falafel Bites - 5pcs', '', 5, 230, 'VG', 1),
 (23, 4, '23.png', 'Mini Veggie Platter & Hummus', 'Fresh crunch: Celery, carrots, and cucumber.', 4, 160, 'VG', 1),
 (24, 5, '24.png', 'Classic Hummus', '', 1, 120, 'VG', 1),
@@ -136,10 +135,10 @@ INSERT INTO `products` (`product_id`, `category_id`, `image`, `name`, `descripti
 (26, 5, '26.png', 'Greek Yogurt Ranch', '', 1, 90, 'V', 1),
 (27, 5, '27.png', 'Spicy Sriracha Mayo', '', 1, 180, 'VG', 1),
 (28, 5, '28.png', 'Peanut Satay Sauce', '', 1, 200, 'VG', 1),
-(29, 6, '29.png', 'Green Glow Smoothie', 'Spinach, pineapple, cucumber, and coconut water.', 4, 120, 'VG', 1),
+(29, 6, '29.png', 'Green Glow Smoothie', 'Spinach, pineapple, cucumber, and coconut water.', 3.5, 120, 'VG', 1),
 (30, 6, '30.png', 'Iced Matcha Latte', 'Lightly sweetened matcha green tea with almond milk.', 3, 90, 'VG', 1),
-(31, 6, '31.png', 'Fruit-Infused Water', 'Freshly infused water with a choice of lemon-mint, strawberry-basil, or cucumber-lime.', 2, 0, 'VG', 1),
-(32, 6, '32.png', 'Berry Blast Smoothie', 'A creamy blend of strawberries, blueberries, and raspberries with almond milk.', 4, 140, 'VG', 1),
+(31, 6, '31.png', 'Fruit-Infused Water', 'Freshly infused water with a choice of lemon-mint, strawberry-basil, or cucumber-lime.', 1.5, 0, 'VG', 1),
+(32, 6, '32.png', 'Berry Blast Smoothie', 'A creamy blend of strawberries, blueberries, and raspberries with almond milk.', 3.8, 140, 'VG', 1),
 (34, 6, NULL, 'Citrus Cooler', 'A refreshing mix of orange juice, sparkling water, and a hint of lime.', 3, 90, 'VG', 1);
 
 --
@@ -188,25 +187,25 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `category_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `order_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `order_status_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `product_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables

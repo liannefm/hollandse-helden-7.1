@@ -37,6 +37,7 @@ function KioskApp() {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [activeCategory, setActiveCategory] = useState<number | null>(null);
     const [activeDietFilter, setActiveDietFilter] = useState<string>("All");
+    const [pickupNumber, setPickupNumber] = useState<number | null>(null);
 
     const { isInactive, resetInactivity } = useInactivity(45000);
 
@@ -51,6 +52,7 @@ function KioskApp() {
         setSelectedProduct(null);
         setActiveCategory(categories.length > 0 ? categories[0].category_id : null);
         setActiveDietFilter("All");
+        setPickupNumber(null);
         resetScroll();
         resetOrder();
         resetInactivity();
@@ -154,8 +156,21 @@ function KioskApp() {
                     }}
                 />
             )}
-            {screen === "payment-in-progress" && <PaymentInProgressScreen onClick={() => setScreen("order-confirmation")} />}
-            {screen === "order-confirmation" && <OrderConfirmationScreen onClick={() => { setScreen("idle"); resetOrder(); }} />}
+            {screen === "payment-in-progress" && (
+                <PaymentInProgressScreen
+                    orderData={orderData}
+                    onOrderCreated={(number) => {
+                        setPickupNumber(number);
+                        setScreen("order-confirmation");
+                    }}
+                />
+            )}
+            {screen === "order-confirmation" && pickupNumber !== null && (
+                <OrderConfirmationScreen
+                    pickupNumber={pickupNumber}
+                    onClick={handleReset}
+                />
+            )}
 
             {isInactive && screen !== "idle" && screen !== "payment-in-progress" && screen !== "order-confirmation" && (
                 <InactivityScreen

@@ -3,7 +3,12 @@ import './OrderConfirmationScreen.scss';
 import logo from "../../assets/images/logos/logo.webp";
 import background from "../../assets/images/background.png";
 
-export default function OrderConfirmationScreen({ onClick }: { onClick: () => void }) {
+interface OrderConfirmationProps {
+    pickupNumber: number;
+    onClick: () => void;
+}
+
+export default function OrderConfirmationScreen({ pickupNumber, onClick }: OrderConfirmationProps) {
     return (
         <div className="order-confirmation-screen" onClick={onClick}>
             <header>
@@ -12,9 +17,9 @@ export default function OrderConfirmationScreen({ onClick }: { onClick: () => vo
             <main>
                 <img className="background" src={background} alt="Background" />
 
-                <h2>We’re preparing your order. Don’t forget to take your receipt.</h2>
+                <h2>We're preparing your order. Don't forget to take your receipt.</h2>
 
-                <p className="order-number">#61</p>
+                <p className="order-number">#{pickupNumber}</p>
             </main>
         </div>
     );

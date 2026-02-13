@@ -1,11 +1,12 @@
 import mysql from "mysql2/promise";
 import { Server } from "socket.io";
+import 'dotenv/config';
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'kiosk',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -56,21 +57,64 @@ io.on("connection", (socket) => {
 
     console.log(`Client connected: ${socket.id} (screenType: ${screenType})`);
 
-    const sendProducts = products.map((product) => {
-        return {
-            product_id: product.product_id,
-            category_id: product.category_id,
-            image: product.image,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            kcal: product.kcal,
-            diet_type: product.diet_type,
-        };
-    });
+    if (screenType === "board") {
+        const sendProducts = products.map((product) => {
+            return {
+                product_id: product.product_id,
+                category_id: product.category_id,
+                image: product.image,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                kcal: product.kcal,
+                diet_type: product.diet_type,
+            };
+        });
 
-    socket.emit("products", sendProducts);
-    socket.emit("categories", categories);
+
+        socket.emit("products", sendProducts);
+        socket.emit("categories", categories);
+
+        socket.on("create_order", async (orderData) => {
+            const connection = await pool.getConnection();
+            try {
+                await connection.beginTransaction();
+
+                const [lastOrder] = await connection.query(
+                    'SELECT pickup_number FROM orders ORDER BY order_id DESC LIMIT 1'
+                );
+                let lastPickupNumber = lastOrder.length > 0 ? lastOrder[0].pickup_number : 0;
+                let newPickupNumber = (lastPickupNumber % 99) + 1;
+
+                const [orderResult] = await connection.query(
+                    'INSERT INTO orders (order_status_id, pickup_number, price_total) VALUES (?, ?, ?)',
+                    [1, newPickupNumber, orderData.totalPrice]
+                );
+                const orderId = orderResult.insertId;
+
+                if (orderData.items && Array.isArray(orderData.items)) {
+                    for (const item of orderData.items) {
+                        await connection.query(
+                            'INSERT INTO order_product (order_id, product_id, price) VALUES (?, ?, ?)',
+                            [orderId, item.product_id, item.price]
+                        );
+                    }
+                }
+
+                await connection.commit();
+
+                console.log(`Order created: ID ${orderId}, Pickup #${newPickupNumber}`);
+
+                socket.emit('order_created', { orderId, pickupNumber: newPickupNumber });
+            } catch (err) {
+                await connection.rollback();
+                console.error("Order creation failed:", err);
+                socket.emit('order_error', { message: 'Failed to create order' });
+            } finally {
+                connection.release();
+            }
+        });
+    }
 
     socket.on("disconnect", () => {
         if (screenType && connectedClients[screenType]) {
