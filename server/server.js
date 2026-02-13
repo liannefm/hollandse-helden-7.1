@@ -45,7 +45,31 @@ getProducts();
 
 const connectedClients = {};
 
-io.on("connection", (socket) => {
+function broadcastToStatusScreens(event, data) {
+    if (connectedClients["statusOrder"]) {
+        connectedClients["statusOrder"].forEach((s) => {
+            s.emit(event, data);
+        });
+    }
+}
+
+async function getActiveOrders() {
+    try {
+        const [rows] = await pool.query(
+            `SELECT o.order_id, o.pickup_number, o.order_status_id, os.description as status_description, o.price_total, o.datetime
+             FROM orders o
+             JOIN order_status os ON o.order_status_id = os.order_status_id
+             WHERE o.order_status_id IN (1, 2, 3, 4)
+             ORDER BY o.datetime ASC`
+        );
+        return rows;
+    } catch (err) {
+        console.error("Failed to fetch active orders:", err);
+        return [];
+    }
+}
+
+io.on("connection", async (socket) => {
     const screenType = socket.handshake.auth.screenType;
 
     if (screenType) {
@@ -56,6 +80,11 @@ io.on("connection", (socket) => {
     }
 
     console.log(`Client connected: ${socket.id} (screenType: ${screenType})`);
+
+    if (screenType === "statusOrder") {
+        const activeOrders = await getActiveOrders();
+        socket.emit("active_orders", activeOrders);
+    }
 
     if (screenType === "board") {
         const sendProducts = products.map((product) => {
@@ -95,8 +124,8 @@ io.on("connection", (socket) => {
                 if (orderData.items && Array.isArray(orderData.items)) {
                     for (const item of orderData.items) {
                         await connection.query(
-                            'INSERT INTO order_product (order_id, product_id, price) VALUES (?, ?, ?)',
-                            [orderId, item.product_id, item.price]
+                            'INSERT INTO order_product (order_id, product_id) VALUES (?, ?)',
+                            [orderId, item.product_id]
                         );
                     }
                 }
@@ -106,6 +135,16 @@ io.on("connection", (socket) => {
                 console.log(`Order created: ID ${orderId}, Pickup #${newPickupNumber}`);
 
                 socket.emit('order_created', { orderId, pickupNumber: newPickupNumber });
+
+                const newOrder = {
+                    order_id: orderId,
+                    pickup_number: newPickupNumber,
+                    order_status_id: 1,
+                    status_description: 'Started',
+                    price_total: orderData.totalPrice,
+                    datetime: new Date().toISOString(),
+                };
+                broadcastToStatusScreens('new_order', newOrder);
             } catch (err) {
                 await connection.rollback();
                 console.error("Order creation failed:", err);
