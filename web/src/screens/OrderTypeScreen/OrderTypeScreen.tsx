@@ -1,4 +1,5 @@
 import './OrderTypeScreen.scss';
+import type { OrderType } from '../../types/Order';
 import background from '../../assets/images/background.png';
 import tasje from '../../assets/images/icons/tasje.png';
 import tafeltje from '../../assets/images/icons/tafeltje.png';
@@ -6,7 +7,7 @@ import vlagnl from '../../assets/images/icons/vlagnl.png';
 import vlagen from '../../assets/images/icons/vlagen.png';
 import vlagde from '../../assets/images/icons/vlagde.png';
 
-export default function OrderTypeScreen({ onOrderTypeSelected }: { onOrderTypeSelected: (orderType: string) => void }) {
+export default function OrderTypeScreen({ onOrderTypeSelected }: { onOrderTypeSelected: (orderType: OrderType) => void }) {
     return (
         <div className="order-type-screen">
             <header>
