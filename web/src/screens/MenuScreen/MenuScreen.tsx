@@ -44,7 +44,7 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
         if (categoriesRef.current) {
             categoriesRef.current.scrollLeft = categoriesScroll.x;
         }
-    }, [activeCategory, activeDietFilter]);
+    }, []);
 
     const saveAllScrolls = () => {
         if (productsRef.current) {
