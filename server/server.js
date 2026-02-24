@@ -53,6 +53,14 @@ function broadcastToStatusScreens(event, data) {
     }
 }
 
+function broadcastToManagementScreens(event, data) {
+    if (connectedClients["orderManagement"]) {
+        connectedClients["orderManagement"].forEach((s) => {
+            s.emit(event, data);
+        });
+    }
+}
+
 async function getActiveOrders() {
     try {
         const [rows] = await pool.query(
@@ -145,12 +153,59 @@ io.on("connection", async (socket) => {
                     datetime: new Date().toISOString(),
                 };
                 broadcastToStatusScreens('new_order', newOrder);
+                broadcastToManagementScreens('new_order', newOrder);
             } catch (err) {
                 await connection.rollback();
                 console.error("Order creation failed:", err);
                 socket.emit('order_error', { message: 'Failed to create order' });
             } finally {
                 connection.release();
+            }
+        });
+    }
+
+    if (screenType === "orderManagement") {
+        const activeOrders = await getActiveOrders();
+        socket.emit("active_orders", activeOrders);
+
+        socket.on("get_order_details", async ({ order_id }) => {
+            try {
+                const [products] = await pool.query(
+                    `SELECT p.product_id, p.name, p.price, p.image, COUNT(*) as quantity
+                     FROM order_product op
+                     JOIN products p ON op.product_id = p.product_id
+                     WHERE op.order_id = ?
+                     GROUP BY p.product_id, p.name, p.price, p.image`,
+                    [order_id]
+                );
+                socket.emit("order_details", { order_id, products });
+            } catch (err) {
+                console.error("Failed to fetch order details:", err);
+            }
+        });
+
+        socket.on("update_order_status", async ({ order_id, status_id }) => {
+            try {
+                await pool.query(
+                    'UPDATE orders SET order_status_id = ? WHERE order_id = ?',
+                    [status_id, order_id]
+                );
+
+                const [[updatedOrder]] = await pool.query(
+                    `SELECT o.order_id, o.pickup_number, o.order_status_id, os.description as status_description, o.price_total, o.datetime
+                     FROM orders o
+                     JOIN order_status os ON o.order_status_id = os.order_status_id
+                     WHERE o.order_id = ?`,
+                    [order_id]
+                );
+
+                if (updatedOrder) {
+                    broadcastToStatusScreens('order_updated', updatedOrder);
+                    broadcastToManagementScreens('order_updated', updatedOrder);
+                    console.log(`Order ${order_id} status updated to ${status_id}`);
+                }
+            } catch (err) {
+                console.error("Failed to update order status:", err);
             }
         });
     }

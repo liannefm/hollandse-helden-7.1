@@ -1,0 +1,191 @@
+.order-management-screen {
+    min-height: 100vh;
+    background: #111827;
+    color: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+
+    .management-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 2rem;
+        background: #1f2937;
+        border-bottom: 1px solid #374151;
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        .order-count {
+            background: #374151;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #d1d5db;
+        }
+    }
+
+    .management-content {
+        flex: 1;
+        padding: 1.5rem 2rem;
+        overflow-x: auto;
+
+        .empty-state {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+
+        thead {
+            background: #1f2937;
+
+            th {
+                padding: 0.85rem 1.25rem;
+                text-align: left;
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: #9ca3af;
+            }
+        }
+
+        tbody {
+            tr {
+                background: #1f2937;
+                border-top: 1px solid #374151;
+                transition: background 0.15s;
+                cursor: pointer;
+
+                &:hover {
+                    background: #263044;
+                }
+
+                &.selected {
+                    background: #1e3a5f;
+                }
+
+                td {
+                    padding: 1rem 1.25rem;
+                    font-size: 0.95rem;
+                }
+            }
+        }
+
+        .pickup-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f9fafb;
+        }
+
+        .price {
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .time {
+            color: #9ca3af;
+        }
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.3rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+
+        &.status--started {
+            background: #374151;
+            color: #d1d5db;
+        }
+
+        &.status--paid {
+            background: #78350f;
+            color: #fde68a;
+        }
+
+        &.status--preparing {
+            background: #1e3a5f;
+            color: #93c5fd;
+        }
+
+        &.status--ready {
+            background: #14532d;
+            color: #86efac;
+        }
+
+        &.status--done {
+            background: #1f2937;
+            color: #6b7280;
+        }
+    }
+
+    .advance-btn {
+        padding: 0.45rem 1rem;
+        border: none;
+        border-radius: 6px;
+        background: #2563eb;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+        white-space: nowrap;
+
+        &:hover {
+            background: #1d4ed8;
+        }
+
+        &:active {
+            background: #1e40af;
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .order-management-screen {
+        .management-header {
+            padding: 1rem 1rem;
+
+            h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        .management-content {
+            padding: 1rem;
+        }
+
+        .orders-table {
+            font-size: 0.85rem;
+
+            thead th,
+            tbody td {
+                padding: 0.75rem 0.75rem;
+            }
+
+            .pickup-number {
+                font-size: 1.1rem;
+            }
+        }
+    }
+}
