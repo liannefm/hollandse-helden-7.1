@@ -139,7 +139,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `image`, `name`, `descripti
 (30, 6, '30.png', 'Iced Matcha Latte', 'Lightly sweetened matcha green tea with almond milk.', 3, 90, 'VG', 1),
 (31, 6, '31.png', 'Fruit-Infused Water', 'Freshly infused water with a choice of lemon-mint, strawberry-basil, or cucumber-lime.', 1.5, 0, 'VG', 1),
 (32, 6, '32.png', 'Berry Blast Smoothie', 'A creamy blend of strawberries, blueberries, and raspberries with almond milk.', 3.8, 140, 'VG', 1),
-(34, 6, NULL, 'Citrus Cooler', 'A refreshing mix of orange juice, sparkling water, and a hint of lime.', 3, 90, 'VG', 1);
+(34, 6, '34.png', 'Citrus Cooler', 'A refreshing mix of orange juice, sparkling water, and a hint of lime.', 3, 90, 'VG', 1);
 
 --
 -- Indexes for dumped tables
