@@ -1,0 +1,145 @@
+.upsell-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img {
+            width: 430px;
+            height: 430px;
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 65px;
+        }
+    }
+
+    main {
+        display: flex;
+
+        .background {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+
+            width: 100vw;
+            height: 100vh;
+
+            z-index: -1;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: auto auto;
+            margin-bottom: 90px;
+            gap: 67px;
+
+            img {
+                width: 420px;
+                height: 335px;
+
+                border-radius: 16px 16px 0px 0px;
+            }
+
+            .product {
+                position: relative;
+
+                width: 420px;
+                height: 505px;
+
+                background-color: white;
+
+                border-radius: 16px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+                .name {
+                    font-size: 37px;
+                    margin: 0;
+                    padding-left: 10px;
+                }
+
+                .filter {
+                    position: absolute;
+                    top: -10px;
+                    right: 20px;
+
+                    width: 75px;
+                    height: 75px;
+
+                    border-radius: 50%;
+                    border: none;
+
+                    font-size: 2.5rem;
+                    background-color: var(--color-primary);
+                    color: #fff;
+
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .price-kcal{
+                    position: absolute;
+                    bottom: 5px;
+                    left: 10px;
+                    
+                    font-size: 35px;
+                    margin: 0;
+                }
+
+                .add-button {
+                    position: absolute;
+                    bottom: 20px;
+                    right: 20px;
+
+                    width: 60px;
+                    height: 60px;
+
+                    padding: 0;
+
+                    border-radius: 50%;
+                    border: none;
+
+                    font-size: 3rem;
+                    background-color: var(--color-primary);
+                    color: #fff;
+                    font-weight: bold;
+
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    line-height: 1;
+
+
+                    &:after {
+                        content: "+";
+                    }
+                }
+            }
+        }
+    }
+
+    footer {
+        button {
+            width: 531px;
+            height: 95px;
+
+            border: none;
+            border-radius: 16px;
+
+            background-color: #FF7520;
+            color: white;
+            font-size: 64px;
+        }
+    }
+
+}

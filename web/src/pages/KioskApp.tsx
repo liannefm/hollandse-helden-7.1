@@ -9,6 +9,7 @@ import OrderTypeScreen from "../screens/OrderTypeScreen/OrderTypeScreen.tsx";
 import MenuScreen from "../screens/MenuScreen/MenuScreen.tsx";
 import ProductDetailScreen from "../screens/ProductDetailScreen/ProductDetailScreen.tsx";
 import OrderSummaryScreen from "../screens/OrderSummaryScreen/OrderSummaryScreen.tsx";
+import UpsellScreen from "../screens/UpsellScreen/UpsellScreen.tsx";
 import PaymentInProgressScreen from "../screens/PaymentInProgressScreen/PaymentInProgressScreen.tsx";
 import OrderConfirmationScreen from "../screens/OrderConfirmationScreen/OrderConfirmationScreen.tsx";
 import InactivityScreen from "../screens/InactivityScreen/InactivityScreen.tsx";
@@ -152,6 +153,21 @@ function KioskApp() {
                         setScreen("menu");
                     }}
                     onCompleteOrder={() => {
+                        setScreen("upsell");
+                    }}
+                />
+            )}
+            {screen === "upsell" && (
+                <UpsellScreen
+                    products={products}
+                    onAddToOrder={(productId, quantity) => {
+                        addToCart(productId, quantity);
+                    }}
+                    onSelectProduct={(product: Product) => {
+                        setSelectedProduct(product);
+                        setScreen("product-detail");
+                    }}
+                    onClickButton={() => {
                         setScreen("payment-in-progress");
                     }}
                 />
@@ -172,7 +188,7 @@ function KioskApp() {
                 />
             )}
 
-            {isInactive && screen !== "idle" && screen !== "payment-in-progress" && screen !== "order-confirmation" && (
+            {isInactive && screen !== "idle" && screen !== "upsell" && screen !== "payment-in-progress" && screen !== "order-confirmation" && (
                 <InactivityScreen
                     onContinue={resetInactivity}
                     onStop={handleReset}
