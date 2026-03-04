@@ -15,6 +15,8 @@ import OrderConfirmationScreen from "../screens/OrderConfirmationScreen/OrderCon
 import InactivityScreen from "../screens/InactivityScreen/InactivityScreen.tsx";
 import { useInactivity } from "../hooks/useInactivity.ts";
 
+import { useLanguage } from "../hooks/useLanguage.ts";
+
 import type { Product } from "../types/Product.ts";
 import type { Category } from "../types/Category.ts";
 
@@ -59,6 +61,8 @@ function KioskApp() {
         resetInactivity();
     };
 
+    const { languageText, changeLanguage } = useLanguage();
+
     useEffect(() => {
         socket.auth = { screenType: "board" };
         socket.connect();
@@ -80,6 +84,8 @@ function KioskApp() {
         };
     }, []);
 
+
+
     return (
         <>
             {screen === "idle" && (
@@ -91,6 +97,8 @@ function KioskApp() {
             )}
             {screen === "orderTypeScreen" && (
                 <OrderTypeScreen
+                    languageText={languageText}
+                    changeLanguage={changeLanguage}
                     onOrderTypeSelected={(type) => {
                         setOrderType(type);
                         setScreen("menu");
@@ -99,6 +107,8 @@ function KioskApp() {
             )}
             {screen === "menu" && (
                 <MenuScreen
+                    languageText={languageText}
+                    changeLanguage={changeLanguage}
                     orderData={orderData}
                     categories={categories}
                     products={products}

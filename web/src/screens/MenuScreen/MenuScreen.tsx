@@ -14,6 +14,8 @@ import type { OrderData } from "../../types/Order.ts";
 import AddToCartAnimation from "../../components/animations/AddToCartAnimation.tsx";
 
 type Props = {
+    languageText: (key: string) => string,
+    changeLanguage: (lang: string) => void,
     orderData: OrderData,
     categories: Category[],
     products: Product[],
@@ -28,7 +30,7 @@ type Props = {
     onAddToOrder: (productId: number, quantity: number) => void
 }
 
-export default function MenuScreen({ orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, activeDietFilter, setActiveDietFilter, onOrderSummary, onAddToOrder }: Props) {
+export default function MenuScreen({ languageText, changeLanguage, orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, activeDietFilter, setActiveDietFilter, onOrderSummary, onAddToOrder }: Props) {
     const productsRef = useRef<HTMLDivElement>(null);
     const categoriesRef = useRef<HTMLDivElement>(null);
 
@@ -86,17 +88,31 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
 
     return (
         <div className="menu-screen">
+
+
+            <button onClick={() => changeLanguage("nl")}>
+                Nederlands
+            </button>
+
+            <button onClick={() => changeLanguage("en")}>
+                English
+            </button>
+
+            <button onClick={() => changeLanguage("de")}>
+                Deutsch
+            </button>
+
             <header>
                 <div className="top">
                     <img src={logo} alt="Logo" width="440" height="440" />
                     <div className="filters">
-                        <p>Choose a category</p>
+                        <p>{languageText("choose_category")}</p>
                         <div className="filter-buttons">
                             <button
                                 className={activeDietFilter === "All" ? "active" : ""}
                                 onClick={() => setActiveDietFilter("All")}
                             >
-                                All
+                                <p>{languageText("all")}</p>
                             </button>
                             <button
                                 className={activeDietFilter === "V" ? "active" : ""}
