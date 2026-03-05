@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import './idleScreen.scss';
 
 import logo from "../../assets/images/logos/logo.webp";
@@ -11,6 +12,7 @@ const images = [image1, image2, image3, image4];
 
 export default function IdleScreen({ onStart }: { onStart: () => void }) {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -40,7 +42,7 @@ export default function IdleScreen({ onStart }: { onStart: () => void }) {
                 ))}
             </main>
             <footer>
-                <button>CLICK THE SCREEN TO START</button>
+                <button>{t("click_to_start")}</button>
             </footer>
         </div>
     );

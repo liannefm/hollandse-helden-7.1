@@ -15,6 +15,8 @@ import OrderConfirmationScreen from "../screens/OrderConfirmationScreen/OrderCon
 import InactivityScreen from "../screens/InactivityScreen/InactivityScreen.tsx";
 import { useInactivity } from "../hooks/useInactivity.ts";
 
+import { useLanguage } from "../hooks/useLanguage.ts";
+
 import type { Product } from "../types/Product.ts";
 import type { Category } from "../types/Category.ts";
 
@@ -48,8 +50,11 @@ function KioskApp() {
         }
     }, [categories, activeCategory]);
 
+    const { productLanguages, categoryLanguages, languageText, changeLanguage, currentLanguage } = useLanguage();
+
     const handleReset = () => {
         setScreen("idle");
+        changeLanguage("en");
         setSelectedProduct(null);
         setActiveCategory(categories.length > 0 ? categories[0].category_id : null);
         setActiveDietFilter("All");
@@ -75,10 +80,16 @@ function KioskApp() {
             setCategories(data);
         });
 
+        socket.emit("get_product_languages", "en");
+
+        socket.emit("get_category_languages", "en");
+
         return () => {
             socket.disconnect();
         };
     }, []);
+
+
 
     return (
         <>
@@ -91,6 +102,8 @@ function KioskApp() {
             )}
             {screen === "orderTypeScreen" && (
                 <OrderTypeScreen
+                    languageText={languageText}
+                    changeLanguage={changeLanguage}
                     onOrderTypeSelected={(type) => {
                         setOrderType(type);
                         setScreen("menu");
@@ -99,6 +112,11 @@ function KioskApp() {
             )}
             {screen === "menu" && (
                 <MenuScreen
+                    productLanguages={productLanguages}
+                    categoryLanguages={categoryLanguages}
+                    languageText={languageText}
+                    changeLanguage={changeLanguage}
+                    currentLanguage={currentLanguage}
                     orderData={orderData}
                     categories={categories}
                     products={products}
@@ -122,6 +140,9 @@ function KioskApp() {
             )}
             {screen === "product-detail" && selectedProduct && (
                 <ProductDetailScreen
+                    languageText={languageText}
+                    productLanguages={productLanguages}
+                    currentLanguage={currentLanguage}
                     product={selectedProduct}
                     onCancel={() => {
                         setSelectedProduct(null);
@@ -138,6 +159,7 @@ function KioskApp() {
             )}
             {screen === "order-summary" && (
                 <OrderSummaryScreen
+                    languageText={languageText}
                     orderData={orderData}
                     products={products}
                     onRemoveFromOrder={(productId) => {
@@ -160,6 +182,8 @@ function KioskApp() {
             {screen === "upsell" && (
                 <UpsellScreen
                     products={products}
+                    productLanguages={productLanguages}
+                    currentLanguage={currentLanguage}
                     onAddToOrder={(productId, quantity) => {
                         addToCart(productId, quantity);
                     }}

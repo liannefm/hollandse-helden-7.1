@@ -5,6 +5,12 @@ import logo from "../../assets/images/logos/logo.webp";
 import emptyDino from "../../assets/images/empty-dino.png";
 
 import shoppingCart from "../../assets/images/icons/shopping-cart.png";
+import vlagnl from "../../assets/images/icons/vlagnl.png";
+import vlagen from "../../assets/images/icons/vlagen.png";
+import vlagde from "../../assets/images/icons/vlagde.png";
+
+import type { ProductLanguages } from "../../types/ProductLanguages";
+import type { CategoryLanguages } from "../../types/CategoryLanguages";
 
 import type { Product } from "../../types/Product.ts";
 import type { Category } from "../../types/Category.ts";
@@ -16,6 +22,11 @@ import AddToCartAnimation from "../../components/animations/AddToCartAnimation.t
 import HelpOverlay from "../../components/HelpOverlay/HelpOverlay.tsx";
 
 type Props = {
+    productLanguages: ProductLanguages,
+    categoryLanguages: CategoryLanguages,
+    languageText: (key: string) => string,
+    changeLanguage: (lang: string) => void,
+    currentLanguage: string,
     orderData: OrderData,
     categories: Category[],
     products: Product[],
@@ -30,7 +41,7 @@ type Props = {
     onAddToOrder: (productId: number, quantity: number) => void
 }
 
-export default function MenuScreen({ orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, activeDietFilter, setActiveDietFilter, onOrderSummary, onAddToOrder }: Props) {
+export default function MenuScreen({ categoryLanguages, productLanguages, languageText, changeLanguage, currentLanguage, orderData, categories, products, saveScroll, getScroll, onSelectProduct, activeCategory, setActiveCategory, activeDietFilter, setActiveDietFilter, onOrderSummary, onAddToOrder }: Props) {
     const productsRef = useRef<HTMLDivElement>(null);
     const categoriesRef = useRef<HTMLDivElement>(null);
 
@@ -93,31 +104,35 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
             <header>
                 <div className="top">
                     <img src={logo} alt="Logo" width="440" height="440" />
-                    <div className="filters">
-                        <p>Choose a category</p>
-                        <div className="filter-buttons">
-                            <button
-                                className={activeDietFilter === "All" ? "active" : ""}
-                                onClick={() => setActiveDietFilter("All")}
-                            >
-                                All
-                            </button>
-                            <button
-                                className={activeDietFilter === "V" ? "active" : ""}
-                                onClick={() => setActiveDietFilter("V")}
-                            >
-                                V
-                            </button>
-                            <button
-                                className={activeDietFilter === "VG" ? "active" : ""}
-                                onClick={() => setActiveDietFilter("VG")}
-                            >
-                                VG
-                            </button>
+
+                    <div className="right-controls">
+                        <div className="top-right">
+                            <div className="language-switcher">
+                                <button
+                                    className={currentLanguage === "nl" ? "active" : ""}
+                                    onClick={() => changeLanguage("nl")}
+                                >
+                                    <img src={vlagnl} alt="Nederlands" />
+                                    <span>NL</span>
+                                </button>
+                                <button
+                                    className={currentLanguage === "en" ? "active" : ""}
+                                    onClick={() => changeLanguage("en")}
+                                >
+                                    <img src={vlagen} alt="English" />
+                                    <span>EN</span>
+                                </button>
+                                <button
+                                    className={currentLanguage === "de" ? "active" : ""}
+                                    onClick={() => changeLanguage("de")}
+                                >
+                                    <img src={vlagde} alt="Deutsch" />
+                                    <span>DE</span>
+                                </button>
+                            </div>
+                            <button className="question-button" onClick={() => setShowHelp(true)}>?</button>
                         </div>
                     </div>
-
-                    <button className="question-button" onClick={() => setShowHelp(true)}>?</button>
                 </div>
 
                 <div className="categories" ref={categoriesRef}>
@@ -128,7 +143,7 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                             className={category.category_id === activeCategory ? "active" : ""}
                             onClick={() => setActiveCategory(category.category_id)}
                         >
-                            {category.name}
+                            <p>{categoryLanguages[currentLanguage] ? categoryLanguages[currentLanguage][category.category_id].name : "Loading..."}</p>
                         </button>
                     ))}
                     <div className="room"></div>
@@ -136,6 +151,28 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
             </header>
             <hr />
             <main>
+                <div className="filters">
+                    <div className="filter-buttons">
+                        <button
+                            className={`filter-all ${activeDietFilter === "All" ? "active" : ""}`}
+                            onClick={() => setActiveDietFilter("All")}
+                        >
+                            {languageText("show_all")}
+                        </button>
+                        <button
+                            className={activeDietFilter === "V" ? "active" : ""}
+                            onClick={() => setActiveDietFilter("V")}
+                        >
+                            <span className="filter-icon v">V</span> {languageText("vegetarian")}
+                        </button>
+                        <button
+                            className={activeDietFilter === "VG" ? "active" : ""}
+                            onClick={() => setActiveDietFilter("VG")}
+                        >
+                            <span className="filter-icon vg">VG</span> {languageText("vegan")}
+                        </button>
+                    </div>
+                </div>
                 <div className={`products ${hasScrollbar ? "has-scrollbar" : ""}`} ref={productsRef}>
                     {(() => {
                         const filteredProducts = products.filter((product) => {
@@ -168,9 +205,9 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                                 onSelectProduct(product);
                             }}
                         >
-                            <img src={`/images/products/${product.image}`} alt={product.name} />
+                            <img src={`/images/products/${product.image}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} />
                             <div key={product.product_id} className="info">
-                                <p className='name'>{product.name}</p>
+                                <p className='name'>{productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."}</p>
                                 <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
                             </div>
                             {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
@@ -186,8 +223,8 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
 
             <footer>
                 <img src={shoppingCart} alt="Shopping Cart" />
-                <p><span>{orderData.totalItems}</span> items &middot; &euro;<span>{orderData.totalPrice.toFixed(2)}</span></p>
-                <button onClick={onOrderSummary}>View my order <span>&gt;</span></button>
+                <p><span>{orderData.totalItems}</span> {languageText("items")} &middot; &euro;<span>{orderData.totalPrice.toFixed(2)}</span></p>
+                <button onClick={onOrderSummary}>{languageText("view_my_order")}</button>
             </footer>
 
             <AddToCartAnimation

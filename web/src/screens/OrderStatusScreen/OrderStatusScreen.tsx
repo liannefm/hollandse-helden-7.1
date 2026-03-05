@@ -162,11 +162,11 @@ export default function OrderStatusScreen() {
 
             <div className="status-columns">
                 <div className="status-column preparing">
-                    <h2>Preparing</h2>
+                    <h2>In bereiding</h2>
                     <div className="order-list" ref={preparingRef}>
                         {preparingOrders.length === 0 && (
                             <div className="empty-state">
-                                <p>No orders yet</p>
+                                <p>Nog geen bestellingen</p>
                             </div>
                         )}
                         {preparingOrders.map((order) => (
@@ -181,11 +181,11 @@ export default function OrderStatusScreen() {
                 </div>
 
                 <div className="status-column ready">
-                    <h2>Ready</h2>
+                    <h2>Klaar</h2>
                     <div className="order-list" ref={readyRef}>
                         {readyOrders.length === 0 && (
                             <div className="empty-state">
-                                <p>No orders ready</p>
+                                <p>Nog geen bestellingen klaar</p>
                             </div>
                         )}
                         {readyOrders.map((order) => (

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './HelpOverlay.scss';
 
 type Props = {
@@ -5,29 +6,31 @@ type Props = {
 };
 
 export default function HelpOverlay({ onClose }: Props) {
+    const { t } = useTranslation();
+
     return (
         <div className="help-overlay" onClick={onClose}>
             <div className="help-card" onClick={(e) => e.stopPropagation()}>
                 <button className="close-button" onClick={onClose}>✕</button>
-                <h2>How does this work?</h2>
+                <h2>{t("help_title")}</h2>
 
                 <div className="steps">
                     <div className="step">
                         <div className="step-number">1</div>
                         <div className="step-content">
-                            <h3>Choose a category</h3>
-                            <p>Tap one of the category buttons to browse the products.</p>
+                            <h3>{t("help_step1_title")}</h3>
+                            <p>{t("help_step1_desc")}</p>
                         </div>
                     </div>
 
                     <div className="step">
                         <div className="step-number">2</div>
                         <div className="step-content">
-                            <h3>Filter by diet</h3>
+                            <h3>{t("help_step2_title")}</h3>
                             <p>
-                                <strong>All</strong> — All products<br />
-                                <strong>V</strong> — Vegetarian<br />
-                                <strong>VG</strong> — Vegan
+                                <strong>{t("all")}</strong> — {t("all_products")}<br />
+                                <strong>V</strong> — {t("vegetarian")}<br />
+                                <strong>VG</strong> — {t("vegan")}
                             </p>
                         </div>
                     </div>
@@ -35,21 +38,21 @@ export default function HelpOverlay({ onClose }: Props) {
                     <div className="step">
                         <div className="step-number">3</div>
                         <div className="step-content">
-                            <h3>Add a product</h3>
-                            <p>Tap a product for more details, or tap the <strong>+</strong> button to add it directly to your order.</p>
+                            <h3>{t("help_step3_title")}</h3>
+                            <p>{t("help_step3_desc")}</p>
                         </div>
                     </div>
 
                     <div className="step">
                         <div className="step-number">4</div>
                         <div className="step-content">
-                            <h3>View your order</h3>
-                            <p>Tap <strong>"View my order"</strong> at the bottom to review and complete your order.</p>
+                            <h3>{t("help_step4_title")}</h3>
+                            <p>{t("help_step4_desc")}</p>
                         </div>
                     </div>
                 </div>
 
-                <button className="got-it-button" onClick={onClose}>Got it!</button>
+                <button className="got-it-button" onClick={onClose}>{t("got_it")}</button>
             </div>
         </div>
     );

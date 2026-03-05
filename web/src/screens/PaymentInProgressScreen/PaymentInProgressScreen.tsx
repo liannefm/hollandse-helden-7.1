@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import './PaymentInProgressScreen.scss';
 import { socket } from '../../socket';
 
@@ -13,6 +14,8 @@ interface PaymentInProgressProps {
 }
 
 export default function PaymentInProgressScreen({ orderData, onOrderCreated }: PaymentInProgressProps) {
+    const { t } = useTranslation();
+
     useEffect(() => {
         const timer = setTimeout(() => {
             // Build items array with one entry per quantity for the server
@@ -59,7 +62,7 @@ export default function PaymentInProgressScreen({ orderData, onOrderCreated }: P
             <main>
                 <img className="background" src={background} alt="Background" />
 
-                <h2>follow the instructions on the payment terminal</h2>
+                <h2>{t("payment_instructions")}</h2>
             </main>
         </div>
     );

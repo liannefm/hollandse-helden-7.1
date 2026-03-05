@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "./AddToCartAnimation.scss";
 
 
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export default function AddToCartAnimation({ isVisible, onAnimationComplete, productImage }: Props) {
+    const { t } = useTranslation();
+
     useEffect(() => {
         if (isVisible) {
             const timer = setTimeout(() => {
@@ -52,7 +55,7 @@ export default function AddToCartAnimation({ isVisible, onAnimationComplete, pro
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5, duration: 0.5 }}
                         >
-                            <h2>Added to your order!</h2>
+                            <h2>{t("added_to_order")}</h2>
                         </motion.div>
 
                         <motion.div
