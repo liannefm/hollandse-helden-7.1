@@ -102,55 +102,35 @@ export default function MenuScreen({ categoryLanguages, productLanguages, langua
             <header>
                 <div className="top">
                     <img src={logo} alt="Logo" width="440" height="440" />
-                    <div className="filters">
-                        <p>{languageText("choose_category")}</p>
-                        <div className="filter-buttons">
-                            <button
-                                className={activeDietFilter === "All" ? "active" : ""}
-                                onClick={() => setActiveDietFilter("All")}
-                            >
-                                <p>{languageText("all")}</p>
-                            </button>
-                            <button
-                                className={activeDietFilter === "V" ? "active" : ""}
-                                onClick={() => setActiveDietFilter("V")}
-                            >
-                                V
-                            </button>
-                            <button
-                                className={activeDietFilter === "VG" ? "active" : ""}
-                                onClick={() => setActiveDietFilter("VG")}
-                            >
-                                VG
-                            </button>
+
+                    <div className="right-controls">
+                        <div className="top-right">
+                            <div className="language-switcher">
+                                <button
+                                    className={currentLanguage === "nl" ? "active" : ""}
+                                    onClick={() => changeLanguage("nl")}
+                                >
+                                    <img src={vlagnl} alt="Nederlands" />
+                                    <span>NL</span>
+                                </button>
+                                <button
+                                    className={currentLanguage === "en" ? "active" : ""}
+                                    onClick={() => changeLanguage("en")}
+                                >
+                                    <img src={vlagen} alt="English" />
+                                    <span>EN</span>
+                                </button>
+                                <button
+                                    className={currentLanguage === "de" ? "active" : ""}
+                                    onClick={() => changeLanguage("de")}
+                                >
+                                    <img src={vlagde} alt="Deutsch" />
+                                    <span>DE</span>
+                                </button>
+                            </div>
+                            <button className="question-button" onClick={() => setShowHelp(true)}>?</button>
                         </div>
                     </div>
-
-                    <div className="language-switcher">
-                        <button
-                            className={currentLanguage === "nl" ? "active" : ""}
-                            onClick={() => changeLanguage("nl")}
-                        >
-                            <img src={vlagnl} alt="Nederlands" />
-                            <span>NL</span>
-                        </button>
-                        <button
-                            className={currentLanguage === "en" ? "active" : ""}
-                            onClick={() => changeLanguage("en")}
-                        >
-                            <img src={vlagen} alt="English" />
-                            <span>EN</span>
-                        </button>
-                        <button
-                            className={currentLanguage === "de" ? "active" : ""}
-                            onClick={() => changeLanguage("de")}
-                        >
-                            <img src={vlagde} alt="Deutsch" />
-                            <span>DE</span>
-                        </button>
-                    </div>
-
-                    <button className="question-button" onClick={() => setShowHelp(true)}>?</button>
                 </div>
 
                 <div className="categories" ref={categoriesRef}>
@@ -169,6 +149,28 @@ export default function MenuScreen({ categoryLanguages, productLanguages, langua
             </header>
             <hr />
             <main>
+                <div className="filters">
+                    <div className="filter-buttons">
+                        <button
+                            className={`filter-all ${activeDietFilter === "All" ? "active" : ""}`}
+                            onClick={() => setActiveDietFilter("All")}
+                        >
+                            {languageText("show_all")}
+                        </button>
+                        <button
+                            className={activeDietFilter === "V" ? "active" : ""}
+                            onClick={() => setActiveDietFilter("V")}
+                        >
+                            <span className="filter-icon v">V</span> {languageText("vegetarian")}
+                        </button>
+                        <button
+                            className={activeDietFilter === "VG" ? "active" : ""}
+                            onClick={() => setActiveDietFilter("VG")}
+                        >
+                            <span className="filter-icon vg">VG</span> {languageText("vegan")}
+                        </button>
+                    </div>
+                </div>
                 <div className={`products ${hasScrollbar ? "has-scrollbar" : ""}`} ref={productsRef}>
                     {products.filter((product) => {
                         const categoryMatch = product.category_id === activeCategory;

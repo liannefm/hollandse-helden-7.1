@@ -16,6 +16,7 @@ i18n
 
                     choose_category: "Choose a category",
                     all: "All",
+                    show_all: "Show all",
                     all_products: "All products",
                     vegetarian: "Vegetarian",
                     vegan: "Vegan",
@@ -65,6 +66,7 @@ i18n
 
                     choose_category: "Kies een categorie",
                     all: "Alles",
+                    show_all: "Toon alles",
                     all_products: "Alle producten",
                     vegetarian: "Vegetarisch",
                     vegan: "Veganistisch",
@@ -114,6 +116,7 @@ i18n
 
                     choose_category: "Wähle eine Kategorie",
                     all: "Alle",
+                    show_all: "Alle anzeigen",
                     all_products: "Alle Produkte",
                     vegetarian: "Vegetarisch",
                     vegan: "Vegan",
