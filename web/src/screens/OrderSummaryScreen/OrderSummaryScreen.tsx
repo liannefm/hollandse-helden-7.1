@@ -13,16 +13,17 @@ type Props = {
     onIncreaseFromCart: (productId: number) => void,
     onDecreaseFromCart: (productId: number) => void,
     onContinueOrdering: () => void,
-    onCompleteOrder: () => void
+    onCompleteOrder: () => void,
+    languageText: (key: string) => string,
 }
 
-export default function OrderSummaryScreen({ orderData, products, onRemoveFromOrder, onIncreaseFromCart, onDecreaseFromCart, onContinueOrdering, onCompleteOrder }: Props) {
+export default function OrderSummaryScreen({ languageText, orderData, products, onRemoveFromOrder, onIncreaseFromCart, onDecreaseFromCart, onContinueOrdering, onCompleteOrder }: Props) {
     return (
         <div className='order-summary-screen'>
             <header>
                 <img src={shoppingCart} />
 
-                <h1>Order summary</h1>
+                <h1>{languageText("order_summary")}</h1>
             </header>
 
             <main>
@@ -42,7 +43,7 @@ export default function OrderSummaryScreen({ orderData, products, onRemoveFromOr
                                         <button className="add-button" onClick={() => onIncreaseFromCart(product.product_id)} />
                                     </div>
 
-                                    <button id="removeitem" onClick={() => onRemoveFromOrder(product.product_id)}>Remove item</button>
+                                    <button id="removeitem" onClick={() => onRemoveFromOrder(product.product_id)}>{languageText("remove_item")}</button>
                                 </div>
                                 <div className="price-and-calories">
                                     <p>€{(product.price * quantity).toFixed(2)}</p>
@@ -58,13 +59,13 @@ export default function OrderSummaryScreen({ orderData, products, onRemoveFromOr
 
             <footer>
                 <div className='box1footer'>
-                    <h2>total</h2>
+                    <h2>{languageText("total")}</h2>
                     <h2>€{orderData.totalPrice.toFixed(2)}  ·  {orderData.totalKcal} kcal</h2>
                 </div>
 
                 <div className='box2footer'>
-                    <button className="continue" onClick={onContinueOrdering}>Continue ordering</button>
-                    <button className="complete" onClick={onCompleteOrder} disabled={orderData.totalItems === 0}>Complete order</button>
+                    <button className="continue" onClick={onContinueOrdering}>{languageText("continue_ordering")}</button>
+                    <button className="complete" onClick={onCompleteOrder} disabled={orderData.totalItems === 0}>{languageText("complete_order")}</button>
                 </div>
             </footer>
         </div>

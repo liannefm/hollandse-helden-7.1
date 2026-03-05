@@ -46,10 +46,10 @@ INSERT INTO `categories` (`category_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorie_translations`
+-- Table structure for table `category_languages`
 --
 
-CREATE TABLE `categorie_translations` (
+CREATE TABLE `category_languages` (
   `id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `language` varchar(3) NOT NULL,
@@ -57,10 +57,10 @@ CREATE TABLE `categorie_translations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categorie_translations`
+-- Dumping data for table `category_languages`
 --
 
-INSERT INTO `categorie_translations` (`id`, `category_id`, `language`, `name`) VALUES
+INSERT INTO `category_languages` (`id`, `category_id`, `language`, `name`) VALUES
 (1, 1, 'en', 'Breakfast'),
 (2, 1, 'nl', 'Ontbijt'),
 (3, 1, 'de', 'Frühstück'),
@@ -208,10 +208,10 @@ INSERT INTO `products` (`product_id`, `category_id`, `image`, `price`, `kcal`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_translations`
+-- Table structure for table `product_languages`
 --
 
-CREATE TABLE `product_translations` (
+CREATE TABLE `product_languages` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `language` varchar(3) NOT NULL,
@@ -220,10 +220,10 @@ CREATE TABLE `product_translations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `product_translations`
+-- Dumping data for table `product_languages`
 --
 
-INSERT INTO `product_translations` (`id`, `product_id`, `language`, `name`, `description`) VALUES
+INSERT INTO `product_languages` (`id`, `product_id`, `language`, `name`, `description`) VALUES
 (1, 9, 'en', 'Morning Boost Açaí Bowl', 'A chilled blend of açaí and banana topped with crunchy granola, chia seeds, and coconut.'),
 (2, 9, 'nl', 'Ochtendboost Açaí Bowl', 'Een gekoelde mix van açaí en banaan met een topping van knapperige granola, chiazaden en kokos.'),
 (3, 9, 'de', 'Morgen-Boost Açaí-Schale', 'Eine gekühlte Mischung aus Açaí und Banane, garniert mit knusprigem Müsli, Chiasamen und Kokosnuss.'),
@@ -311,9 +311,9 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Indexes for table `categorie_translations`
+-- Indexes for table `category_languages`
 --
-ALTER TABLE `categorie_translations`
+ALTER TABLE `category_languages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `category_id` (`category_id`);
 
@@ -346,9 +346,9 @@ ALTER TABLE `products`
   ADD KEY `image_id` (`image`);
 
 --
--- Indexes for table `product_translations`
+-- Indexes for table `product_languages`
 --
-ALTER TABLE `product_translations`
+ALTER TABLE `product_languages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`);
 
@@ -363,9 +363,9 @@ ALTER TABLE `categories`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `categorie_translations`
+-- AUTO_INCREMENT for table `category_languages`
 --
-ALTER TABLE `categorie_translations`
+ALTER TABLE `category_languages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
@@ -387,9 +387,9 @@ ALTER TABLE `products`
   MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `product_translations`
+-- AUTO_INCREMENT for table `product_languages`
 --
-ALTER TABLE `product_translations`
+ALTER TABLE `product_languages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
@@ -397,10 +397,10 @@ ALTER TABLE `product_translations`
 --
 
 --
--- Constraints for table `categorie_translations`
+-- Constraints for table `category_languages`
 --
-ALTER TABLE `categorie_translations`
-  ADD CONSTRAINT `categorie_translations_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE;
+ALTER TABLE `category_languages`
+  ADD CONSTRAINT `category_languages_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `orders`
@@ -422,10 +422,10 @@ ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `product_translations`
+-- Constraints for table `product_languages`
 --
-ALTER TABLE `product_translations`
-  ADD CONSTRAINT `product_translations_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
+ALTER TABLE `product_languages`
+  ADD CONSTRAINT `product_languages_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

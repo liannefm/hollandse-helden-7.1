@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './ProductDetailScreen.scss';
 
+import type { ProductLanguages } from "../../types/ProductLanguages";
+
 import logo from "../../assets/images/logos/logo.webp";
 
 import background from "../../assets/images/background.png";
@@ -8,7 +10,17 @@ import background from "../../assets/images/background.png";
 import type { Product } from "../../types/Product.ts";
 import AddToCartAnimation from '../../components/animations/AddToCartAnimation.tsx';
 
-export default function ProductDetailScreen({ product, onCancel, onAddToOrder, onAnimationEnd }: { product: Product, onCancel: () => void, onAddToOrder: (productId: number, quantity: number) => void, onAnimationEnd: () => void }) {
+type Props ={
+    languageText: (key: string) => string,
+    product: Product,
+    onCancel: () => void,
+    onAddToOrder: (productId: number, quantity: number) => void,
+    onAnimationEnd: () => void,
+    productLanguages: ProductLanguages,
+    currentLanguage: string,
+}
+
+export default function ProductDetailScreen({ languageText, productLanguages, currentLanguage, product, onCancel, onAddToOrder, onAnimationEnd }: Props) {
     const [quantity, setQuantity] = useState(1);
     const [showAnimation, setShowAnimation] = useState(false);
 
@@ -34,13 +46,13 @@ export default function ProductDetailScreen({ product, onCancel, onAddToOrder, o
 
                 <div className="top-info">
                     <p>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
-                    <p className="name">{product.name}</p>
+                    <p className='name'>{productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."}</p>
                     {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
                 </div>
 
                 <div className="bottom-info">
-                    <img src={`/images/products/${product.image}`} alt={product.name} />
-                    <p>{product.description}</p>
+                    <img src={`/images/products/${product.image}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} />
+                    <p>{productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].description : "Loading..."}</p>
                 </div>
             </main>
             <footer>
@@ -50,8 +62,8 @@ export default function ProductDetailScreen({ product, onCancel, onAddToOrder, o
                     <button className="add-button" onClick={() => setQuantity(quantity + 1)} />
                 </div>
                 <div className="buttons">
-                    <button className="cancel-button" onClick={onCancel}>Cancel</button>
-                    <button className="add-to-order-button" onClick={handleAddToOrder}>Add to order</button>
+                    <button className="cancel-button" onClick={onCancel}>{languageText("cancel")}</button>
+                    <button className="add-to-order-button" onClick={handleAddToOrder}>{languageText("add_to_order")}</button>
                 </div>
             </footer>
             <AddToCartAnimation

@@ -15,6 +15,17 @@ i18n
 
                     choose_category: "Choose a category",
                     all: "All",
+                    items: "items",
+                    view_my_order: "View my order",
+
+                    cancel: "Cancel",
+                    add_to_order: "Add to order",
+
+                    order_summary: "Order summary",
+                    total: "total",
+                    remove_item: "remove item",
+                    continue_ordering: "Continue ordering",
+                    complete_order: "Complete order",
                 }
             },
             nl: {
@@ -25,6 +36,17 @@ i18n
 
                     choose_category: "Kies een categorie",
                     all: "Alles",
+                    items: "artikelen",
+                    view_my_order: "Bekijk mijn bestelling",
+
+                    cancel: "Annuleren",
+                    add_to_order: "Toevoegen aan bestelling",
+
+                    order_summary: "Bestellingsoverzicht",
+                    total: "totaal",
+                    remove_item: "verwijder item",
+                    continue_ordering: "Verder bestellen",
+                    complete_order: "Bestelling afronden",
                 }
             },
             de: {
@@ -35,6 +57,17 @@ i18n
 
                     choose_category: "Wählen Sie eine Kategorie",
                     all: "Alle",
+                    items: "Artikel",
+                    view_my_order: "Meine Bestellung ansehen",
+
+                    cancel: "Abbrechen",
+                    add_to_order: "Zum Warenkorb hinzufügen",
+
+                    order_summary: "Bestellübersicht",
+                    total: "Gesamt",
+                    remove_item: "Artikel entfernen",
+                    continue_ordering: "Weiter bestellen",
+                    complete_order: "Bestellung abschließen",
                 }
             }
         },

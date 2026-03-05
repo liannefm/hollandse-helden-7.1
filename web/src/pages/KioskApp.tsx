@@ -50,8 +50,11 @@ function KioskApp() {
         }
     }, [categories, activeCategory]);
 
+    const { productLanguages, categoryLanguages, languageText, changeLanguage, currentLanguage } = useLanguage();
+
     const handleReset = () => {
         setScreen("idle");
+        changeLanguage("en");
         setSelectedProduct(null);
         setActiveCategory(categories.length > 0 ? categories[0].category_id : null);
         setActiveDietFilter("All");
@@ -60,8 +63,6 @@ function KioskApp() {
         resetOrder();
         resetInactivity();
     };
-
-    const { languageText, changeLanguage } = useLanguage();
 
     useEffect(() => {
         socket.auth = { screenType: "board" };
@@ -78,6 +79,10 @@ function KioskApp() {
         socket.on("categories", (data: Category[]) => {
             setCategories(data);
         });
+
+        socket.emit("get_product_languages", "en");
+
+        socket.emit("get_category_languages", "en");
 
         return () => {
             socket.disconnect();
@@ -107,8 +112,11 @@ function KioskApp() {
             )}
             {screen === "menu" && (
                 <MenuScreen
+                    productLanguages={productLanguages}
+                    categoryLanguages={categoryLanguages}
                     languageText={languageText}
                     changeLanguage={changeLanguage}
+                    currentLanguage={currentLanguage}
                     orderData={orderData}
                     categories={categories}
                     products={products}
@@ -132,6 +140,9 @@ function KioskApp() {
             )}
             {screen === "product-detail" && selectedProduct && (
                 <ProductDetailScreen
+                    languageText={languageText}
+                    productLanguages={productLanguages}
+                    currentLanguage={currentLanguage}
                     product={selectedProduct}
                     onCancel={() => {
                         setSelectedProduct(null);
@@ -148,6 +159,7 @@ function KioskApp() {
             )}
             {screen === "order-summary" && (
                 <OrderSummaryScreen
+                    languageText={languageText}
                     orderData={orderData}
                     products={products}
                     onRemoveFromOrder={(productId) => {
