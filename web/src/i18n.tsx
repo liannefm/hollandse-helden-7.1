@@ -53,6 +53,9 @@ i18n
                     got_it: "Got it!",
 
                     added_to_order: "Added to your order!",
+
+                    empty_state_title: "Oops! Nothing to see here yet.",
+                    empty_state_description: "Try a different category or filter.",
                 }
             },
             nl: {
@@ -103,6 +106,9 @@ i18n
                     got_it: "Begrepen!",
 
                     added_to_order: "Toegevoegd aan je bestelling!",
+
+                    empty_state_title: "Oeps! Hier is nog niks te vinden.",
+                    empty_state_description: "Probeer een andere categorie of filter.",
                 }
             },
             de: {
@@ -153,6 +159,9 @@ i18n
                     got_it: "Verstanden!",
 
                     added_to_order: "Zu deiner Bestellung hinzugefügt!",
+
+                    empty_state_title: "Ups! Hier gibt es noch nichts zu sehen.",
+                    empty_state_description: "Versuche eine andere Kategorie oder einen anderen Filter.",
                 }
             }
         },

@@ -190,33 +190,33 @@ export default function MenuScreen({ categoryLanguages, productLanguages, langua
                             return (
                                 <div className="empty-state">
                                     <img src={emptyDino} alt="Geen producten" />
-                                    <p>Oeps! Hier is nog niks te vinden.</p>
-                                    <span>Probeer een andere categorie of filter.</span>
+                                    <p>{languageText("empty_state_title")}</p>
+                                    <span>{languageText("empty_state_description")}</span>
                                 </div>
                             );
                         }
 
                         return filteredProducts.map((product) => (
-                        <div
-                            key={product.product_id}
-                            className="product"
-                            onClick={() => {
-                                saveAllScrolls();
-                                onSelectProduct(product);
-                            }}
-                        >
-                            <img src={`/images/products/${product.image}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} />
-                            <div key={product.product_id} className="info">
-                                <p className='name'>{productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."}</p>
-                                <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
+                            <div
+                                key={product.product_id}
+                                className="product"
+                                onClick={() => {
+                                    saveAllScrolls();
+                                    onSelectProduct(product);
+                                }}
+                            >
+                                <img src={`/images/products/${product.image}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} />
+                                <div key={product.product_id} className="info">
+                                    <p className='name'>{productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."}</p>
+                                    <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
+                                </div>
+                                {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
+                                <button onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddToOrder(product, 1);
+                                }} className="add-button" />
                             </div>
-                            {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
-                            <button onClick={(e) => {
-                                e.stopPropagation();
-                                handleAddToOrder(product, 1);
-                            }} className="add-button" />
-                        </div>
-                    ));
+                        ));
                     })()}
                 </div>
             </main>
