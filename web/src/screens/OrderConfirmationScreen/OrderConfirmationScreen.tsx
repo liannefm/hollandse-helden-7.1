@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './OrderConfirmationScreen.scss';
 
 import logo from "../../assets/images/logos/logo.webp";
@@ -9,6 +10,8 @@ interface OrderConfirmationProps {
 }
 
 export default function OrderConfirmationScreen({ pickupNumber, onClick }: OrderConfirmationProps) {
+    const { t } = useTranslation();
+
     return (
         <div className="order-confirmation-screen" onClick={onClick}>
             <header>
@@ -17,7 +20,7 @@ export default function OrderConfirmationScreen({ pickupNumber, onClick }: Order
             <main>
                 <img className="background" src={background} alt="Background" />
 
-                <h2>We're preparing your order. Don't forget to take your receipt.</h2>
+                <h2>{t("order_preparing")}</h2>
 
                 <p className="order-number">#{pickupNumber}</p>
             </main>

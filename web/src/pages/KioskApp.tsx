@@ -182,6 +182,8 @@ function KioskApp() {
             {screen === "upsell" && (
                 <UpsellScreen
                     products={products}
+                    productLanguages={productLanguages}
+                    currentLanguage={currentLanguage}
                     onAddToOrder={(productId, quantity) => {
                         addToCart(productId, quantity);
                     }}

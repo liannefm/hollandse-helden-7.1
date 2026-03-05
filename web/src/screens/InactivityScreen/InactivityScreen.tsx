@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './InactivityScreen.scss';
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export default function InactivityScreen({ onContinue, onStop, timeoutSeconds = 15 }: Props) {
+    const { t } = useTranslation();
     const [timeLeft, setTimeLeft] = useState(timeoutSeconds);
 
     useEffect(() => {
@@ -38,17 +40,14 @@ export default function InactivityScreen({ onContinue, onStop, timeoutSeconds = 
         >
             <div className="backdrop" />
             <div className="content">
-                <h2>Are you still there?</h2>
-                <p>
-                    Your order will be cancelled in <br />
-                    <span className="countdown">{timeLeft}</span> seconds.
-                </p>
+                <h2>{t("are_you_still_there")}</h2>
+                <p>{t("order_cancelled_in", { seconds: timeLeft })}</p>
                 <div className="buttons">
                     <button className="stop-button" onClick={onStop}>
-                        Cancel
+                        {t("cancel")}
                     </button>
                     <button className="continue-button" onClick={onContinue}>
-                        Continue
+                        {t("continue")}
                     </button>
                 </div>
             </div>

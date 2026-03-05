@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import './UpsellScreen.scss';
 
@@ -6,17 +7,21 @@ import background from "../../assets/images/background.png";
 import logo from "../../assets/images/logos/logo.webp";
 
 import type { Product } from "../../types/Product.ts";
+import type { ProductLanguages } from "../../types/ProductLanguages.ts";
 
 import AddToCartAnimation from "../../components/animations/AddToCartAnimation.tsx";
 
 type Props = {
     products: Product[],
+    productLanguages: ProductLanguages,
+    currentLanguage: string,
     onAddToOrder: (productId: number, quantity: number) => void
     onSelectProduct: (product: Product) => void,
     onClickButton: () => void
 }
 
-export default function UpsellScreen({ products, onAddToOrder, onSelectProduct, onClickButton }: Props) {
+export default function UpsellScreen({ products, productLanguages, currentLanguage, onAddToOrder, onSelectProduct, onClickButton }: Props) {
+    const { t } = useTranslation();
     const [showAnimation, setShowAnimation] = useState(false);
     const [productImage, setProductImage] = useState("");
     const [fourProducts, setFourProducts] = useState<Product[]>([]);
@@ -41,12 +46,19 @@ export default function UpsellScreen({ products, onAddToOrder, onSelectProduct, 
         setFourProducts(randomProducts);
     }, [products]);
 
+    const getProductName = (product: Product) => {
+        if (productLanguages[currentLanguage] && productLanguages[currentLanguage][product.product_id]) {
+            return productLanguages[currentLanguage][product.product_id].name;
+        }
+        return product.name;
+    };
+
     return (
         <div className="upsell-screen">
             <header>
                 <img src={logo} alt="Logo" />
 
-                <h1>We also recommend</h1>
+                <h1>{t("we_also_recommend")}</h1>
             </header>
 
             <main>
@@ -63,9 +75,9 @@ export default function UpsellScreen({ products, onAddToOrder, onSelectProduct, 
                             }}>
                             <div key={product.product_id} className="info">
                             </div>
-                            <img src={`/images/products/${product.image}`} alt={product.name} />
+                            <img src={`/images/products/${product.image}`} alt={getProductName(product)} />
                             {product.diet_type ? <p className="filter">{product.diet_type}</p> : null}
-                            <p className='name'>{product.name}</p>
+                            <p className='name'>{getProductName(product)}</p>
                             <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
 
                             <button onClick={(e) => {
@@ -81,7 +93,7 @@ export default function UpsellScreen({ products, onAddToOrder, onSelectProduct, 
 
             <footer>
 
-                <button className="verdergaan" onClick={onClickButton}>Continue</button>
+                <button className="verdergaan" onClick={onClickButton}>{t("continue")}</button>
 
             </footer>
 

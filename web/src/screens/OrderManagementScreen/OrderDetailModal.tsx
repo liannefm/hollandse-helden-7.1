@@ -26,11 +26,11 @@ interface Props {
 }
 
 const STATUS_LABELS: Record<number, string> = {
-    1: 'Started',
-    2: 'Placed & Paid',
-    3: 'Preparing',
-    4: 'Ready for Pickup',
-    5: 'Picked Up',
+    1: 'Gestart',
+    2: 'Geplaatst & Betaald',
+    3: 'In bereiding',
+    4: 'Klaar voor ophalen',
+    5: 'Opgehaald',
 };
 
 const STATUS_CLASS: Record<number, string> = {
@@ -42,10 +42,10 @@ const STATUS_CLASS: Record<number, string> = {
 };
 
 const NEXT_STATUS_LABEL: Record<number, string> = {
-    1: 'Mark Paid',
-    2: 'Mark Preparing',
-    3: 'Mark Ready',
-    4: 'Mark Picked Up',
+    1: 'Markeer betaald',
+    2: 'Markeer in bereiding',
+    3: 'Markeer klaar',
+    4: 'Markeer opgehaald',
 };
 
 const NEXT_STATUS: Record<number, number> = {

@@ -13,11 +13,11 @@ interface Order {
 }
 
 const STATUS_LABELS: Record<number, string> = {
-    1: 'Started',
-    2: 'Placed & Paid',
-    3: 'Preparing',
-    4: 'Ready for Pickup',
-    5: 'Picked Up',
+    1: 'Gestart',
+    2: 'Geplaatst & Betaald',
+    3: 'In bereiding',
+    4: 'Klaar voor ophalen',
+    5: 'Opgehaald',
 };
 
 const STATUS_CLASS: Record<number, string> = {
@@ -36,10 +36,10 @@ const NEXT_STATUS: Record<number, number> = {
 };
 
 const NEXT_STATUS_LABEL: Record<number, string> = {
-    1: 'Mark Paid',
-    2: 'Mark Preparing',
-    3: 'Mark Ready',
-    4: 'Mark Picked Up',
+    1: 'Markeer betaald',
+    2: 'Markeer in bereiding',
+    3: 'Markeer klaar',
+    4: 'Markeer opgehaald',
 };
 
 export default function OrderManagementScreen() {
@@ -100,20 +100,20 @@ export default function OrderManagementScreen() {
     return (
         <div className="order-management-screen">
             <header className="management-header">
-                <h1>Order Management</h1>
-                <span className="order-count">{orders.length} actieve order{orders.length !== 1 ? 's' : ''}</span>
+                <h1>Bestellingenbeheer</h1>
+                <span className="order-count">{orders.length} actieve bestelling{orders.length !== 1 ? 'en' : ''}</span>
             </header>
 
             <main className="management-content">
                 {orders.length === 0 ? (
                     <div className="empty-state">
-                        <p>Geen actieve orders</p>
+                        <p>Geen actieve bestellingen</p>
                     </div>
                 ) : (
                     <table className="orders-table">
                         <thead>
                             <tr>
-                                <th>Pickup #</th>
+                                <th>Ophaal #</th>
                                 <th>Status</th>
                                 <th>Totaal</th>
                                 <th>Tijdstip</th>

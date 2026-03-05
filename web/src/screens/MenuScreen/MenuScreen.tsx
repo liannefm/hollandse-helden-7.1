@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import './MenuScreen.scss';
 
 import logo from "../../assets/images/logos/logo.webp";
-
 import shoppingCart from "../../assets/images/icons/shopping-cart.png";
+import vlagnl from "../../assets/images/icons/vlagnl.png";
+import vlagen from "../../assets/images/icons/vlagen.png";
+import vlagde from "../../assets/images/icons/vlagde.png";
 
 import type { ProductLanguages } from "../../types/ProductLanguages";
 import type { CategoryLanguages } from "../../types/CategoryLanguages";
@@ -97,20 +99,6 @@ export default function MenuScreen({ categoryLanguages, productLanguages, langua
 
     return (
         <div className="menu-screen">
-
-
-            <button onClick={() => changeLanguage("nl")}>
-                Nederlands
-            </button>
-
-            <button onClick={() => changeLanguage("en")}>
-                English
-            </button>
-
-            <button onClick={() => changeLanguage("de")}>
-                Deutsch
-            </button>
-
             <header>
                 <div className="top">
                     <img src={logo} alt="Logo" width="440" height="440" />
@@ -136,6 +124,30 @@ export default function MenuScreen({ categoryLanguages, productLanguages, langua
                                 VG
                             </button>
                         </div>
+                    </div>
+
+                    <div className="language-switcher">
+                        <button
+                            className={currentLanguage === "nl" ? "active" : ""}
+                            onClick={() => changeLanguage("nl")}
+                        >
+                            <img src={vlagnl} alt="Nederlands" />
+                            <span>NL</span>
+                        </button>
+                        <button
+                            className={currentLanguage === "en" ? "active" : ""}
+                            onClick={() => changeLanguage("en")}
+                        >
+                            <img src={vlagen} alt="English" />
+                            <span>EN</span>
+                        </button>
+                        <button
+                            className={currentLanguage === "de" ? "active" : ""}
+                            onClick={() => changeLanguage("de")}
+                        >
+                            <img src={vlagde} alt="Deutsch" />
+                            <span>DE</span>
+                        </button>
                     </div>
 
                     <button className="question-button" onClick={() => setShowHelp(true)}>?</button>
