@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import './MenuScreen.scss';
 
 import logo from "../../assets/images/logos/logo.webp";
+import emptyDino from "../../assets/images/empty-dino.png";
 
 import shoppingCart from "../../assets/images/icons/shopping-cart.png";
 
@@ -136,16 +137,29 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
             <hr />
             <main>
                 <div className={`products ${hasScrollbar ? "has-scrollbar" : ""}`} ref={productsRef}>
-                    {products.filter((product) => {
-                        const categoryMatch = product.category_id === activeCategory;
-                        if (!categoryMatch) return false;
+                    {(() => {
+                        const filteredProducts = products.filter((product) => {
+                            const categoryMatch = product.category_id === activeCategory;
+                            if (!categoryMatch) return false;
 
-                        if (activeDietFilter === "All") return true;
-                        if (activeDietFilter === "V") return product.diet_type === "V";
-                        if (activeDietFilter === "VG") return product.diet_type === "VG";
+                            if (activeDietFilter === "All") return true;
+                            if (activeDietFilter === "V") return product.diet_type === "V";
+                            if (activeDietFilter === "VG") return product.diet_type === "VG";
 
-                        return true;
-                    }).map((product) => (
+                            return true;
+                        });
+
+                        if (filteredProducts.length === 0) {
+                            return (
+                                <div className="empty-state">
+                                    <img src={emptyDino} alt="Geen producten" />
+                                    <p>Oeps! Hier is nog niks te vinden.</p>
+                                    <span>Probeer een andere categorie of filter.</span>
+                                </div>
+                            );
+                        }
+
+                        return filteredProducts.map((product) => (
                         <div
                             key={product.product_id}
                             className="product"
@@ -165,7 +179,8 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                                 handleAddToOrder(product, 1);
                             }} className="add-button" />
                         </div>
-                    ))}
+                    ));
+                    })()}
                 </div>
             </main>
 
