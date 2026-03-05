@@ -7,10 +7,12 @@ import background from "../../assets/images/background.png";
 
 import type { Product } from "../../types/Product.ts";
 import AddToCartAnimation from '../../components/animations/AddToCartAnimation.tsx';
+import HelpOverlay from '../../components/HelpOverlay/HelpOverlay.tsx';
 
 export default function ProductDetailScreen({ product, onCancel, onAddToOrder, onAnimationEnd }: { product: Product, onCancel: () => void, onAddToOrder: (productId: number, quantity: number) => void, onAnimationEnd: () => void }) {
     const [quantity, setQuantity] = useState(1);
     const [showAnimation, setShowAnimation] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
 
     const handleAddToOrder = () => {
         onAddToOrder(product.product_id, quantity);
@@ -27,7 +29,7 @@ export default function ProductDetailScreen({ product, onCancel, onAddToOrder, o
             <header>
                 <img src={logo} alt="Logo" />
 
-                <button className="question-button">?</button>
+                <button className="question-button" onClick={() => setShowHelp(true)}>?</button>
             </header>
             <main>
                 <img className="background" src={background} alt="Background" />
@@ -59,6 +61,8 @@ export default function ProductDetailScreen({ product, onCancel, onAddToOrder, o
                 onAnimationComplete={handleAnimationComplete}
                 productImage={`/images/products/${product.image}`}
             />
+
+            {showHelp && <HelpOverlay onClose={() => setShowHelp(false)} />}
         </div>
     );
 }

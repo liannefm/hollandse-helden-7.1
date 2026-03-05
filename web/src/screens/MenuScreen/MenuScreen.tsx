@@ -12,6 +12,7 @@ import type { ScrollPosition } from "../../types/ScrollStore.ts";
 import type { OrderData } from "../../types/Order.ts";
 
 import AddToCartAnimation from "../../components/animations/AddToCartAnimation.tsx";
+import HelpOverlay from "../../components/HelpOverlay/HelpOverlay.tsx";
 
 type Props = {
     orderData: OrderData,
@@ -71,6 +72,8 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
         }
     }, [products, activeCategory, activeDietFilter]);
 
+    const [showHelp, setShowHelp] = useState(false);
+
     const [showAnimation, setShowAnimation] = useState(false);
     const [productImage, setProductImage] = useState("");
 
@@ -113,7 +116,7 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                         </div>
                     </div>
 
-                    <button className="question-button">?</button>
+                    <button className="question-button" onClick={() => setShowHelp(true)}>?</button>
                 </div>
 
                 <div className="categories" ref={categoriesRef}>
@@ -177,6 +180,8 @@ export default function MenuScreen({ orderData, categories, products, saveScroll
                 onAnimationComplete={handleAnimationComplete}
                 productImage={productImage}
             />
+
+            {showHelp && <HelpOverlay onClose={() => setShowHelp(false)} />}
         </div>
     );
 }
