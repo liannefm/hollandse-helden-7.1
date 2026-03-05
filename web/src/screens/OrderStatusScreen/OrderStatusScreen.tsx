@@ -95,6 +95,35 @@ export default function OrderStatusScreen() {
         }, 600);
     }, []);
 
+    const handleOrderUpdated = useCallback((updatedOrder: Order) => {
+        setOrders(prev => {
+            if (!prev.find(o => o.order_id === updatedOrder.order_id)) return prev;
+
+            if (updatedOrder.order_status_id === 5) {
+                return prev.filter(o => o.order_id !== updatedOrder.order_id);
+            }
+
+            const oldOrder = prev.find(o => o.order_id === updatedOrder.order_id);
+            const movedToReady = updatedOrder.order_status_id === 4 && oldOrder?.order_status_id !== 4;
+
+            return prev.map(o =>
+                o.order_id === updatedOrder.order_id
+                    ? { ...updatedOrder, isNew: movedToReady }
+                    : o
+            );
+        });
+
+        if (updatedOrder.order_status_id === 4) {
+            setTimeout(() => {
+                setOrders(prev =>
+                    prev.map(o =>
+                        o.order_id === updatedOrder.order_id ? { ...o, isNew: false } : o
+                    )
+                );
+            }, 600);
+        }
+    }, []);
+
     useEffect(() => {
         socket.auth = { screenType: "statusOrder" };
         socket.connect();
@@ -107,12 +136,15 @@ export default function OrderStatusScreen() {
             addOrder(order);
         });
 
+        socket.on("order_updated", handleOrderUpdated);
+
         return () => {
             socket.off("active_orders");
             socket.off("new_order");
+            socket.off("order_updated");
             socket.disconnect();
         };
-    }, [addOrder]);
+    }, [addOrder, handleOrderUpdated]);
 
     const preparingOrders = orders.filter(o => [1, 2, 3].includes(o.order_status_id));
     const readyOrders = orders.filter(o => o.order_status_id === 4);
