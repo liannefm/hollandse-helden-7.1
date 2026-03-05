@@ -112,6 +112,56 @@ io.on("connection", async (socket) => {
         socket.emit("products", sendProducts);
         socket.emit("categories", categories);
 
+        socket.on("get_product_languages", async (language) => {
+            console.log(`Received request for product languages in: ${language}`);
+            try {
+                const [rows] = await pool.query(
+                    'SELECT product_id, language, name, description FROM product_languages WHERE language = ?',
+                    [language]
+                );
+
+                const data = {
+                    [language]: {}
+                };
+                
+                rows.forEach((row) => {
+                    data[language][row.product_id] = {
+                        name: row.name,
+                        description: row.description,
+                    };
+                });
+
+                socket.emit("product_languages", data);
+            } catch (err) {
+                console.error("Failed to fetch product languages:", err);
+            }
+        });
+
+        socket.on("get_category_languages", async (language) => {
+            console.log(`Received request for categorie languages in: ${language}`);
+            try {
+                const [rows] = await pool.query(
+                    'SELECT category_id, language, name FROM category_languages WHERE language = ?',
+                    [language]
+                );
+
+                const data = {
+                    [language]: {}
+                };
+                
+                rows.forEach((row) => {
+                    data[language][row.category_id] = {
+                        name: row.name
+                    };
+                });
+
+                socket.emit("category_languages", data);
+            } catch (err) {
+                console.error("Failed to fetch categorie languages:", err);
+            }
+        });
+
+
         socket.on("create_order", async (orderData) => {
             const connection = await pool.getConnection();
             try {

@@ -7,11 +7,11 @@ import vlagnl from '../../assets/images/icons/vlagnl.png';
 import vlagen from '../../assets/images/icons/vlagen.png';
 import vlagde from '../../assets/images/icons/vlagde.png';
 
-export default function OrderTypeScreen({ onOrderTypeSelected }: { onOrderTypeSelected: (orderType: OrderType) => void }) {
+export default function OrderTypeScreen({ languageText, changeLanguage, onOrderTypeSelected }: {languageText: (key: string) => string, changeLanguage: (lang: string) => void, onOrderTypeSelected: (orderType: OrderType) => void }) {
     return (
         <div className="order-type-screen">
             <header>
-                <h1>Eat in or take away?</h1>
+                <h1>{languageText("eat_in_or_take_away")}</h1>
             </header>
             <main>
                 <img className='background' src={background} />
@@ -20,28 +20,29 @@ export default function OrderTypeScreen({ onOrderTypeSelected }: { onOrderTypeSe
                 <div className='buttonbox'>
                     <button id='eatin' onClick={() => onOrderTypeSelected('here')}>
                         <img src={tafeltje} id="tafeltje" />
-                        Eat in
+                        <p>{languageText("eat_in")}</p>
                     </button>
 
                     <button id='takeaway' onClick={() => onOrderTypeSelected('take_away')}>
                         <img src={tasje} id="tasje" />
-                        Take away
+                        <p>{languageText("take_away")}</p>
                     </button>
                 </div>
             </main>
             <footer>
+
                 <div className='buttonboxtaal'>
-                    <button id="nl">
+                    <button onClick={() => changeLanguage("nl")}>
                         <img src={vlagnl} id="vlagnl" />
                         Nederlands
                     </button>
 
-                    <button id="en">
+                    <button onClick={() => changeLanguage("en")}>
                         <img src={vlagen} id="vlagen" />
                         English
                     </button>
 
-                    <button id="de">
+                    <button onClick={() => changeLanguage("de")}>
                         <img src={vlagde} id="vlagde" />
                         Deutsch
                     </button>
