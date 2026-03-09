@@ -199,8 +199,6 @@ function KioskApp() {
             {screen === "payment-in-progress" && (
                 <PaymentInProgressScreen
                     orderData={orderData}
-                    products={products}
-                    currentLanguage={currentLanguage}
                     onOrderCreated={(number) => {
                         setPickupNumber(number);
                         setScreen("order-confirmation");
@@ -210,6 +208,10 @@ function KioskApp() {
             {screen === "order-confirmation" && pickupNumber !== null && (
                 <OrderConfirmationScreen
                     pickupNumber={pickupNumber}
+                    orderData={orderData}
+                    products={products}
+                    productLanguages={productLanguages}
+                    currentLanguage={currentLanguage}
                     onClick={handleReset}
                 />
             )}

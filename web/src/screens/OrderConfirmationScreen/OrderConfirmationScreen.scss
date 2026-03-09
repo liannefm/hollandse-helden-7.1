@@ -4,55 +4,169 @@
     height: 100vh;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     .background {
         position: absolute;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: -1;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+}
+
+.confirmation-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 560px;
+    padding: 0 24px;
+    cursor: default;
+}
+
+// ─── Logo ───
+.confirmation-header {
+    img {
+        width: 160px;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+// ─── Pickup number ───
+.confirmation-pickup {
+    text-align: center;
+
+    .pickup-label {
+        font-size: 1.35rem;
+        font-family: var(--font-heading);
+        color: var(--color-primary);
+        margin: 0 0 12px;
+        letter-spacing: 0.03em;
     }
 
-    header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .pickup-badge {
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px 64px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        display: inline-block;
 
-        img {
-            width: 450px;
-            height: 450px;
-            object-fit: contain;
+        .pickup-number {
+            font-size: clamp(5rem, 14vw, 9rem);
+            font-weight: 900;
+            font-family: var(--font-heading);
+            color: var(--text-color);
+            line-height: 1;
+            letter-spacing: 0.04em;
         }
     }
 
-    main {
+    .pickup-sub {
+        margin: 10px 0 0;
+        font-size: 0.85rem;
+        color: rgba(5, 54, 49, 0.5);
+    }
+}
+
+// ─── Order summary ───
+.confirmation-summary {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 14px;
+    padding: 14px 18px;
+    width: 100%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    .summary-items {
         display: flex;
-        align-items: center;
-        justify-content: center;
         flex-direction: column;
+        gap: 4px;
+        margin-bottom: 8px;
+    }
 
-        h2 {
-            max-width: 90%;
-            font-size: 3.5rem;
-            text-align: center;
-            margin: 24px 0 0;
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 0.9rem;
+        color: var(--text-color);
+
+        .summary-name {
+            font-weight: 600;
         }
 
-        .order-number {
-            margin-top: 60px;
-
-            font-size: 9rem;
-            font-weight: bold;
-            text-align: center;
-
-            background-color: #fff;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
-            padding: 60px 160px;
-            border-radius: 20px;
+        .summary-price {
+            font-weight: 600;
         }
+    }
+
+    .summary-divider {
+        border-top: 1px dashed rgba(5, 54, 49, 0.2);
+        margin: 8px 0;
+    }
+
+    .summary-vat {
+        font-size: 0.8rem;
+        color: rgba(5, 54, 49, 0.5);
+    }
+
+    .summary-total {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-top: 4px;
+
+        span:last-child {
+            color: var(--color-primary);
+        }
+    }
+}
+
+// ─── Countdown ───
+.confirmation-countdown {
+    text-align: center;
+    cursor: pointer;
+
+    .countdown-text {
+        font-size: 0.8rem;
+        color: rgba(5, 54, 49, 0.4);
+        margin: 0 0 8px;
+    }
+
+    .countdown-bar {
+        width: 160px;
+        height: 3px;
+        background: rgba(5, 54, 49, 0.1);
+        border-radius: 9999px;
+        overflow: hidden;
+        margin: 0 auto;
+
+        .countdown-fill {
+            height: 100%;
+            background: var(--color-primary);
+            border-radius: 9999px;
+            transition: width 1s linear;
+        }
+    }
+}
+
+// ─── Print media: only show receipt ───
+@media print {
+    body > * {
+        display: none !important;
+    }
+    .receipt-print-wrapper {
+        display: block !important;
+        position: static !important;
+        left: 0 !important;
+        top: 0 !important;
+        z-index: auto !important;
     }
 }
