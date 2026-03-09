@@ -53,7 +53,7 @@ export default function ProductDetailScreen({ languageText, productLanguages, cu
                 </div>
 
                 <div className="bottom-info">
-                    <img src={`/images/products/${product.image}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} />
+                    <img src={`/images/products/${product.image.replace(/\.png$/i, '.webp')}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} />
                     <p>{productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].description : "Loading..."}</p>
                 </div>
             </main>
@@ -71,7 +71,7 @@ export default function ProductDetailScreen({ languageText, productLanguages, cu
             <AddToCartAnimation
                 isVisible={showAnimation}
                 onAnimationComplete={handleAnimationComplete}
-                productImage={`/images/products/${product.image}`}
+                productImage={`/images/products/${product.image.replace(/\.png$/i, '.webp')}`}
             />
 
             {showHelp && <HelpOverlay onClose={() => setShowHelp(false)} />}

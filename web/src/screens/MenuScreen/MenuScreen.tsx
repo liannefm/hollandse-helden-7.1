@@ -90,7 +90,7 @@ export default function MenuScreen({ categoryLanguages, productLanguages, langua
     const [productImage, setProductImage] = useState("");
 
     const handleAddToOrder = (product: Product, quantity: number) => {
-        setProductImage(`/images/products/${product.image}`);
+        setProductImage(`/images/products/${product.image.replace(/\.png$/i, '.webp')}`);
         onAddToOrder(product.product_id, quantity);
         setShowAnimation(true);
     };
@@ -205,7 +205,7 @@ export default function MenuScreen({ categoryLanguages, productLanguages, langua
                                     onSelectProduct(product);
                                 }}
                             >
-                                <img src={`/images/products/${product.image}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} />
+                                <img src={`/images/products/${product.image.replace(/\.png$/i, '.webp')}`} alt={productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."} loading="lazy" />
                                 <div key={product.product_id} className="info">
                                     <p className='name'>{productLanguages[currentLanguage] ? productLanguages[currentLanguage][product.product_id].name : "Loading..."}</p>
                                     <p className='price-kcal'>&euro;<span>{product.price.toFixed(2)}</span> &middot; <span>{product.kcal}</span>kcal</p>
