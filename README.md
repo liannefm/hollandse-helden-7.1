@@ -100,8 +100,8 @@ De web-applicatie heeft drie schermen die via de URL worden geselecteerd:
 | Route | Scherm |
 |---|---|
 | `/` | Kiosk (klantinterface) |
-| `/management` | Bestellingsbeheer (keuken) |
-| `/status` | Bestellingsstatus (klantscherm) |
+| `/order-management` | Bestellingsbeheer (keuken) |
+| `/order-status` | Bestellingsstatus (klantscherm) |
 
 ---
 
