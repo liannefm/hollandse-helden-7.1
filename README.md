@@ -105,6 +105,40 @@ De web-applicatie heeft drie schermen die via de URL worden geselecteerd:
 
 ---
 
+## Automatische opstart
+
+De map `automatische-startup/` bevat scripts om het systeem automatisch te laten starten bij het opstarten van Windows.
+
+### Hoe het werkt
+
+`start-kiosk.bat` roept `start-kiosk.ps1` aan, die:
+1. Wacht tot Docker Desktop klaar is
+2. De Node.js server start (poort 3000)
+3. De Vite web server start (poort 5173)
+4. Chrome opent in kiosk-modus op `http://localhost:5173`
+
+### Instellen via Taakplanner
+
+1. Open **Taakplanner** (zoek op "Taakplanner" in het Startmenu)
+2. Klik op **Taak maken...** (rechterpaneel)
+3. **Algemeen** tabblad:
+   - Naam: `Hollandse Helden Kiosk`
+   - Vink aan: **Uitvoeren met de hoogste bevoegdheden**
+4. **Triggers** tabblad → **Nieuw...**:
+   - Taak beginnen: **Bij aanmelden**
+   - Kies de gewenste gebruiker
+5. **Acties** tabblad → **Nieuw...**:
+   - Actie: **Een programma starten**
+   - Programma/script: blader naar `automatische-startup\start-kiosk.bat`
+   - Starten in: het pad naar de projectmap (bijv. `C:\Users\tom\Desktop\scripts\websites\react\hollandse-helden-7.1`)
+6. **Voorwaarden** tabblad:
+   - Schakel **Taak alleen starten als de computer op netstroom werkt** uit (bij kiosk-gebruik)
+7. Klik **OK** en geef je wachtwoord in indien gevraagd
+
+Het systeem start nu automatisch op elke keer dat je inlogt op Windows.
+
+---
+
 ## Documentatie
 
 Extra documentatie is te vinden in de `docs/` map:
